@@ -1,0 +1,24 @@
+table {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 20px;
+    border: 1px solid white;
+}
+
+#title {
+    background-color: #C0C0C0;
+}
+
+#entity {
+    background-color: #E0E0E0;
+}
+
+th, td {
+    border: 1px solid white;
+    padding: 10px;
+}
+
+#btn {
+    text-align: center;
+    margin: 20px;
+}
