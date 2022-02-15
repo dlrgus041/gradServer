@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +30,16 @@ public class EmployeeController {
         List<Employee> employees = employeeService.findEmployees();
         model.addAttribute("employees", employees);
         return "employees/employeeList";
+    }
+
+    @PostMapping("/employee/search")
+    public String search(@RequestParam("domain") String domain, Model model, HttpServletRequest request) {
+
+        String parameter = request.getParameter("value");
+        List<Employee> list = employeeService.search(domain, parameter);
+        model.addAttribute("search", list);
+
+        return "employees/searchEmployeeList";
     }
 
     @GetMapping("/employee/create")
@@ -52,7 +64,7 @@ public class EmployeeController {
     @GetMapping("/employee/modify/{no}")
     public String modifyForm(@PathVariable("no") Long no, Model model) {
 
-        Optional<Employee> employee = employeeService.findOne(no);
+        Optional<Employee> employee = employeeService.findById(no);
         if (employee.isEmpty()) return "error";
 
         model.addAttribute("employee", employee.get());
@@ -78,7 +90,7 @@ public class EmployeeController {
     @GetMapping("/employee/delete/{no}")
     public String delete(@PathVariable("no") Long no) {
 
-        Optional<Employee> employee = employeeService.findOne(no);
+        Optional<Employee> employee = employeeService.findById(no);
         if (employee.isEmpty()) return "error";
 
         employeeService.deleteOne(no);

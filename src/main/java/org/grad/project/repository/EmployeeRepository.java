@@ -48,9 +48,26 @@ public class EmployeeRepository {
                 .stream().findAny();
     }
 
+    public Optional<Employee> findByPhone(String phone) {
+        return jdbcTemplate.query("select * from grad.employee where phone = ?", employeeRowMapper(), phone)
+                .stream().findAny();
+    }
+
     public Optional<Employee> findByAddress(String address) {
         return jdbcTemplate.query("select * from grad.employee where address = ?", employeeRowMapper(), address)
                 .stream().findAny();
+    }
+
+    public List<Employee> searchByName(String name) {
+        return jdbcTemplate.query("select * from grad.employee where name like ?", employeeRowMapper(), "%" + name + "%");
+    }
+
+    public List<Employee> searchByPhone(String phone) {
+        return jdbcTemplate.query("select * from grad.employee where phone like ?", employeeRowMapper(), "%" + phone + "%");
+    }
+
+    public List<Employee> searchByAddress(String address) {
+        return jdbcTemplate.query("select * from grad.employee where address like ?", employeeRowMapper(), "%" + address + "%");
     }
 
     public List<Employee> findAll() {

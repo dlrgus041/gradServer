@@ -37,6 +37,13 @@ public class VisitorService {
         return visitorRepository.findById(memberId);
     }
 
+    public List<Visitor> search(String domain, String value) {
+        if (domain.equals("name")) return visitorRepository.searchByName(value);
+        if (domain.equals("phone")) return visitorRepository.searchByPhone(value);
+        if (domain.equals("address")) return visitorRepository.searchByAddress(value);
+        return null;
+    }
+
     public boolean deleteVisitors() {
         return visitorRepository.deleteAll();
     }

@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +30,16 @@ public class VisitorController {
         List<Visitor> visitors = visitorService.findVisitors();
         model.addAttribute("visitors", visitors);
         return "visitors/visitorList";
+    }
+
+    @PostMapping("/visitor/search")
+    public String search(@RequestParam("domain") String domain, Model model, HttpServletRequest request) {
+
+        String parameter = request.getParameter("value");
+        List<Visitor> list = visitorService.search(domain, parameter);
+        model.addAttribute("search", list);
+
+        return "visitors/searchVisitorList";
     }
 
     @GetMapping("/visitor/create")

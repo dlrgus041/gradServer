@@ -54,6 +54,18 @@ public class VisitorRepository {
                 .stream().findAny();
     }
 
+    public List<Visitor> searchByName(String name) {
+        return jdbcTemplate.query("select * from grad.visitor where name like ?", visitorRowMapper(), "%" + name + "%");
+    }
+
+    public List<Visitor> searchByPhone(String phone) {
+        return jdbcTemplate.query("select * from grad.visitor where phone like ?", visitorRowMapper(), "%" + phone + "%");
+    }
+
+    public List<Visitor> searchByAddress(String address) {
+        return jdbcTemplate.query("select * from grad.visitor where address like ?", visitorRowMapper(), "%" + address + "%");
+    }
+
     public List<Visitor> findAll() {
         return jdbcTemplate.query("select * from grad.visitor", visitorRowMapper());
     }

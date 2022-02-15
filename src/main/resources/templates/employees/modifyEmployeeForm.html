@@ -18,8 +18,12 @@
 </nav>
 <h1 style="margin: 20px; text-align: center;">직원 정보 수정</h1>
 <div class="container" style="margin-left: auto; margin-right: auto;">
-    <form  th:each="employee: ${employee}" th:action="'/employee/modify/' + ${employee.id}" method="post">
+    <form th:each="employee: ${employee}" th:action="'/employee/modify/' + ${employee.id}" method="post">
         <table class="profile">
+            <tr>
+                <td>번호</td>
+                <td><input type="text" id="id" name="id" th:value="${employee.id}" disabled/></td>
+            </tr>
             <tr>
                 <td>이름</td>
                 <td><input type="text" id="name" name="name" th:value="${employee.name}"/></td>
