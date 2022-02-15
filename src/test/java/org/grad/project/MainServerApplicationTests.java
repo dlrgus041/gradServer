@@ -19,9 +19,9 @@ class MainServerApplicationTests {
 //	void employeeInsertTest() {
 //		Employee employee = new Employee();
 //		employee.setId(5L);
-//		employee.setName("김익현");
-//		employee.setPhone("01052654815");
-//		employee.setAddress("경기도 화성시");
+//		employee.setName("Andrew");
+//		employee.setPhone("01012345678");
+//		employee.setAddress("Los Angeles");
 //		er.save(employee);
 //	}
 
