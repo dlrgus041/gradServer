@@ -21,6 +21,10 @@
     <form  th:each="employee: ${employee}" th:action="'/employee/modify/' + ${employee.id}" method="post">
         <table class="profile">
             <tr>
+                <td>번호</td>
+                <td><input type="text" id="id" name="id" th:value="${employee.id}" disabled/></td>
+            </tr>
+            <tr>
                 <td>이름</td>
                 <td><input type="text" id="name" name="name" th:value="${employee.name}"/></td>
             </tr>
