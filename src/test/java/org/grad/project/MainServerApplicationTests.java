@@ -34,4 +34,9 @@ class MainServerApplicationTests {
 //	void employeeSearch() {
 //		er.searchByName("n");
 //	}
+
+	@Test
+	void employeeVaccineSearch(){
+		er.findByVaccine(true);
+	}
 }

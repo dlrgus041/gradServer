@@ -34,6 +34,7 @@ public class EmployeeRepository {
         parameters.put("name", employee.getName());
         parameters.put("phone", employee.getPhone());
         parameters.put("address", employee.getAddress());
+        parameters.put("vaccine", employee.getVaccine());
 
         jdbcInsert.execute(new MapSqlParameterSource(parameters));
     }
@@ -55,6 +56,11 @@ public class EmployeeRepository {
 
     public Optional<Employee> findByAddress(String address) {
         return jdbcTemplate.query("select * from grad.employee where address = ?", employeeRowMapper(), address)
+                .stream().findAny();
+    }
+
+    public Optional<Employee> findByVaccine(Boolean flag) {
+        return jdbcTemplate.query("select * from grad.employee where vaccine = ?", employeeRowMapper(), flag)
                 .stream().findAny();
     }
 
@@ -102,6 +108,7 @@ public class EmployeeRepository {
             employee.setName(rs.getString("name"));
             employee.setPhone(rs.getString("phone"));
             employee.setAddress(rs.getString("address"));
+            employee.setVaccine(rs.getBoolean("vaccine"));
             return employee;
         };
     }

@@ -55,6 +55,7 @@ public class EmployeeController {
         employee.setName(form.getName());
         employee.setPhone(form.getPhone());
         employee.setAddress(form.getAddress());
+        employee.setVaccine(form.getVaccine());
 
         employeeService.join(employee);
 
@@ -81,6 +82,7 @@ public class EmployeeController {
         employee.setName(form.getName());
         employee.setPhone(form.getPhone());
         employee.setAddress(form.getAddress());
+        employee.setVaccine(form.getVaccine());
 
         employeeService.join(employee);
 
@@ -88,7 +90,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/employee/delete/{no}")
-    public String delete(@PathVariable("no") Long no) {
+    public String delete(@PathVariable("no") Long no, HttpServletRequest request) {
 
         Optional<Employee> employee = employeeService.findById(no);
         if (employee.isEmpty()) return "error";

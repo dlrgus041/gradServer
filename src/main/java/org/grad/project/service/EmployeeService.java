@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -20,23 +19,21 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public Long join(Employee employee) {
-        validateDuplicateEmployee(employee);
+    public void join(Employee employee) {
+        if (validateDuplicateEmployee(employee)) return;
         employeeRepository.save(employee);
-        return employee.getId();
     }
 
-    private void validateDuplicateEmployee(Employee employee) {
-        employeeRepository.findByName(employee.getName())
-                .ifPresent(m -> {throw new IllegalStateException("이미 존재하는 회원입니다.");});
-    }
-
-    public List<Employee> findEmployees() {
-        return employeeRepository.findAll();
+    private boolean validateDuplicateEmployee(Employee employee) {
+        return employeeRepository.findByName(employee.getName()).isPresent();
     }
 
     public Optional<Employee> findById(Long memberId) {
         return employeeRepository.findById(memberId);
+    }
+
+    public List<Employee> findEmployees() {
+        return employeeRepository.findAll();
     }
 
     public Optional<Employee> findByName(String name) {
@@ -47,15 +44,19 @@ public class EmployeeService {
         return employeeRepository.findByPhone(phone);
     }
 
+    public Optional<Employee> findByAddress(String address) {
+        return employeeRepository.findByAddress(address);
+    }
+
+    public Optional<Employee> findByVaccine(Boolean flag) {
+        return employeeRepository.findByVaccine(flag);
+    }
+
     public List<Employee> search(String domain, String value) {
         if (domain.equals("name")) return employeeRepository.searchByName(value);
         if (domain.equals("phone")) return employeeRepository.searchByPhone(value);
         if (domain.equals("address")) return employeeRepository.searchByAddress(value);
         return null;
-    }
-
-    public Optional<Employee> findByAddress(String address) {
-        return employeeRepository.findByAddress(address);
     }
 
     public boolean deleteVisitors() {

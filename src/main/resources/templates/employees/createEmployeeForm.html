@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Hello</title>
+    <title>직원 정보 입력</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="/css/navbar.css">
     <link rel="stylesheet" type="text/css" href="/css/inputForm.css">
@@ -35,6 +35,16 @@
             <tr>
                 <td>주소</td>
                 <td><input type="text" id="address" name="address"/></td>
+            </tr>
+            <tr>
+                <td>접종여부</td>
+                <td class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: -webkit-fill-available;">
+                    <input type="radio" class="btn-check" name="vaccine" id="true" value="1" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="true">O</label>
+
+                    <input type="radio" class="btn-check" name="vaccine" id="false" value="0" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="false">X</label>
+                </td>
             </tr>
         </table>
         <div id="btn">

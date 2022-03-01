@@ -4,6 +4,7 @@ public class Employee {
 
     private Long id;
     private String name, phone, address;
+    private Boolean vaccine;
 
     public Long getId() {
         return id;
@@ -21,7 +22,6 @@ public class Employee {
         this.name = name;
     }
 
-
     public String getPhone() {
         return phone;
     }
@@ -36,5 +36,13 @@ public class Employee {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Boolean getVaccine() {
+        return vaccine;
+    }
+
+    public void setVaccine(Boolean vaccine) {
+        this.vaccine = vaccine;
     }
 }
