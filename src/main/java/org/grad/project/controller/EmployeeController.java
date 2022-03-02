@@ -42,13 +42,22 @@ public class EmployeeController {
         return "employees/searchEmployeeList";
     }
 
-    @GetMapping("/employee/create")
-    public String createForm() {
+    @GetMapping("/employee/create/{code}")
+    public String createForm(@PathVariable("code") int code, Model model) {
+        model.addAttribute("code", code);
         return "employees/createEmployeeForm";
     }
 
     @PostMapping("/employee/create")
     public String create(EmployeeForm form) {
+
+        if (form.getId() == null) return "redirect:/employee/create/1";
+        if (form.getName().isEmpty()) return "redirect:/employee/create/2";
+        if (form.getPhone().isEmpty()) return "redirect:/employee/create/3";
+        if (form.getAddress().isEmpty()) return "redirect:/employee/create/4";
+        if (employeeService.validateDuplicateEmployee(form.getId()))
+            return "redirect:/employee/create/9";
+
         Employee employee = new Employee();
 
         employee.setId(form.getId());
@@ -56,8 +65,6 @@ public class EmployeeController {
         employee.setPhone(form.getPhone());
         employee.setAddress(form.getAddress());
         employee.setVaccine(form.getVaccine());
-
-        employeeService.join(employee);
 
         return "redirect:/employee";
     }

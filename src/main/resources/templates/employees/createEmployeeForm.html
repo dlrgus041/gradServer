@@ -16,7 +16,24 @@
         </button>
     </div>
 </nav>
-<h1 style="margin: 20px; text-align: center;">직원 등록</h1>
+<th:block th:if="${code > 0}">
+    <div th:if="${code == 1}" class="alert alert-warning" style="margin-bottom: 20px;" role="alert">
+        번호를 입력해주세요.
+    </div>
+    <div th:if="${code == 2}" class="alert alert-warning" style="margin-bottom: 20px;" role="alert">
+        이름을 입력해주세요.
+    </div>
+    <div th:if="${code == 3}" class="alert alert-warning" style="margin-bottom: 20px;" role="alert">
+        전화번호를 입력해주세요.
+    </div>
+    <div th:if="${code == 4}" class="alert alert-warning" style="margin-bottom: 20px;" role="alert">
+        주소를 입력해주세요.
+    </div>
+    <div th:if="${code == 9}" class="alert alert-warning" style="margin-bottom: 20px;" role="alert">
+        해당 번호로 등록된 데이터가 이미 존재합니다.
+    </div>
+</th:block>
+    <h1 style="margin: 20px; text-align: center;">직원 등록</h1>
 <div class="container" style="margin-left: auto; margin-right: auto;">
     <form action="/employee/create" method="post">
         <table class="profile">

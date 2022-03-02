@@ -20,12 +20,11 @@ public class EmployeeService {
     }
 
     public void join(Employee employee) {
-        if (validateDuplicateEmployee(employee)) return;
         employeeRepository.save(employee);
     }
 
-    private boolean validateDuplicateEmployee(Employee employee) {
-        return employeeRepository.findByName(employee.getName()).isPresent();
+    public boolean validateDuplicateEmployee(Long id) {
+        return employeeRepository.findById(id).isPresent();
     }
 
     public Optional<Employee> findById(Long memberId) {
