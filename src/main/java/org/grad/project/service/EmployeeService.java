@@ -23,8 +23,12 @@ public class EmployeeService {
         employeeRepository.save(employee);
     }
 
-    public boolean validateDuplicateEmployee(Long id) {
+    public boolean isValidById(Long id) {
         return employeeRepository.findById(id).isPresent();
+    }
+
+    public boolean isValidByPhone(String phone) {
+        return employeeRepository.findByPhone(phone).isPresent();
     }
 
     public Optional<Employee> findById(Long memberId) {

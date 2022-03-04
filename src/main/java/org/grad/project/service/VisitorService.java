@@ -18,15 +18,12 @@ public class VisitorService {
         this.visitorRepository = visitorRepository;
     }
 
-    public Long join(Visitor visitor) {
-        validateDuplicateVisitor(visitor);
+    public void join(Visitor visitor) {
         visitorRepository.save(visitor);
-        return visitor.getId();
     }
 
-    private void validateDuplicateVisitor(Visitor visitor) {
-        visitorRepository.findByName(visitor.getName())
-                .ifPresent(m -> {throw new IllegalStateException("이미 존재하는 회원입니다.");});
+    public boolean isValid(String phone) {
+        return visitorRepository.findByPhone(phone).isPresent();
     }
 
     public List<Visitor> findVisitors() {

@@ -55,8 +55,8 @@ public class EmployeeController {
         if (form.getName().isEmpty()) return "redirect:/employee/create/2";
         if (form.getPhone().isEmpty()) return "redirect:/employee/create/3";
         if (form.getAddress().isEmpty()) return "redirect:/employee/create/4";
-        if (employeeService.validateDuplicateEmployee(form.getId()))
-            return "redirect:/employee/create/9";
+        if (employeeService.isValidById(form.getId())) return "redirect:/employee/create/8";
+        if (employeeService.isValidByPhone(form.getPhone())) return "redirect:/employee/create/9";
 
         Employee employee = new Employee();
 
@@ -65,6 +65,8 @@ public class EmployeeController {
         employee.setPhone(form.getPhone());
         employee.setAddress(form.getAddress());
         employee.setVaccine(form.getVaccine());
+
+        employeeService.join(employee);
 
         return "redirect:/employee";
     }
@@ -97,7 +99,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/employee/delete/{no}")
-    public String delete(@PathVariable("no") Long no, HttpServletRequest request) {
+    public String delete(@PathVariable("no") Long no) {
 
         Optional<Employee> employee = employeeService.findById(no);
         if (employee.isEmpty()) return "error";

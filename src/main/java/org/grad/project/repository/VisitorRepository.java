@@ -49,6 +49,11 @@ public class VisitorRepository {
                 .stream().findAny();
     }
 
+    public Optional<Visitor> findByPhone(String phone) {
+        return jdbcTemplate.query("select * from grad.visitor where phone = ?", visitorRowMapper(), phone)
+                .stream().findAny();
+    }
+
     public Optional<Visitor> findByAddress(String address) {
         return jdbcTemplate.query("select * from grad.visitor where address = ?", visitorRowMapper(), address)
                 .stream().findAny();

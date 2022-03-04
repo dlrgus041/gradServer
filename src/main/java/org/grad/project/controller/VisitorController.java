@@ -42,13 +42,19 @@ public class VisitorController {
         return "visitors/searchVisitorList";
     }
 
-    @GetMapping("/visitor/create")
-    public String createForm() {
+    @GetMapping("/visitor/create/{code}")
+    public String createForm(@PathVariable("code") int code, Model model) {
+        model.addAttribute("code", code);
         return "visitors/createVisitorForm";
     }
 
     @PostMapping("/visitor/create")
     public String create(VisitorForm form) {
+
+        if (form.getName().isEmpty()) return "redirect:/visitor/create/2";
+        if (form.getPhone().isEmpty()) return "redirect:/visitor/create/3";
+        if (form.getAddress().isEmpty()) return "redirect:/visitor/create/4";
+        if (visitorService.isValid(form.getPhone())) return "redirect:/visitor/create/9";
 
         Visitor visitor = new Visitor();
         visitor.setName(form.getName());
