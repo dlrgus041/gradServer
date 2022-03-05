@@ -1,0 +1,39 @@
+.emp-out {
+    position: fixed;
+    right: 30px;
+    bottom: 170px;
+    width: 80px;
+    height: 80px;
+    box-shadow: 5px 5px 5px 0px gray;
+    border-radius: 20%;
+    background: palegreen;
+    cursor: pointer;
+}
+
+.emp-in {
+    position: fixed;
+    right: 40px;
+    bottom: 180px;
+    width: 60px;
+    height: auto;
+}
+
+.vis-out {
+    position: fixed;
+    right: 30px;
+    bottom: 50px;
+    width: 80px;
+    height: 80px;
+    box-shadow: 5px 5px 5px 0px gray;
+    border-radius: 20%;
+    background: paleturquoise;
+    cursor: pointer;
+}
+
+.vis-in {
+    position: fixed;
+    right: 40px;
+    bottom: 60px;
+    width: 60px;
+    height: auto;
+}

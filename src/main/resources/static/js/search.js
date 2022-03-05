@@ -1,0 +1,1 @@
+function func(id) {if (confirm('해당 항목을 삭제하겠습니까?')) location.href='/visitor/delete/' + id;}

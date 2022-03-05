@@ -49,7 +49,13 @@ public class EmployeeController {
     }
 
     @PostMapping("/employee/create")
-    public String create(EmployeeForm form) {
+    public String create(EmployeeForm form, Model model) {
+
+        model.addAttribute("id", form.getId());
+        model.addAttribute("name", form.getName());
+        model.addAttribute("phone", form.getPhone());
+        model.addAttribute("address", form.getAddress());
+        model.addAttribute("vaccine", form.getVaccine());
 
         if (form.getId() == null) return "redirect:/employee/create/1";
         if (form.getName().isEmpty()) return "redirect:/employee/create/2";

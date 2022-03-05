@@ -5,9 +5,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="/css/navbar.css">
     <link rel="stylesheet" type="text/css" href="/css/inputForm.css">
+    <link rel="stylesheet" type="text/css" href="/css/float.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
+<div class="emp-out">
+    <img class="emp-in" src="/img/employee.png" onclick="fun(true)">
+</div>
+<div class="vis-out">
+    <img class="vis-in" src="/img/visitor.png" onclick="fun(false)">
+</div>
 <nav class="navbar navbar-expand-sm">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Up-Temp</a>
@@ -22,27 +29,26 @@
         <table class="profile">
             <tr>
                 <td>사원번호</td>
-                <td><input type="text" id="id" name="id"/></td>
+                <td><input type="text" id="id" name="id" autocomplete="off"/></td>
             </tr>
             <tr>
                 <td>이름</td>
-                <td><input type="text" id="name" name="name"/></td>
+                <td><input type="text" id="name" name="name" autocomplete="off"/></td>
             </tr>
             <tr>
                 <td>전화번호</td>
-                <td><input type="text" id="phone" name="phone"/></td>
+                <td><input type="text" id="phone" name="phone" autocomplete="off"/></td>
             </tr>
             <tr>
                 <td>주소</td>
-                <td><input type="text" id="address" name="address"/></td>
+                <td><input type="text" id="address" name="address" autocomplete="off"/></td>
             </tr>
             <tr>
                 <td>접종여부</td>
                 <td class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: -webkit-fill-available;">
-                    <input type="radio" class="btn-check" name="vaccine" id="true" value="1" autocomplete="off" checked>
+                    <input type="radio" class="btn-check" name="vaccine" id="true" value="1" autocomplete="off" th:checked="${vaccine == true}">
                     <label class="btn btn-outline-primary" for="true">O</label>
-
-                    <input type="radio" class="btn-check" name="vaccine" id="false" value="0" autocomplete="off">
+                    <input type="radio" class="btn-check" name="vaccine" id="false" value="0" autocomplete="off" th:checked="${vaccine == false}">
                     <label class="btn btn-outline-primary" for="false">X</label>
                 </td>
             </tr>
@@ -73,6 +79,7 @@
         해당 전화번호로 등록된 데이터가 이미 존재합니다.
     </div>
 </th:block>
+<script type="text/javascript" src="/js/float.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
