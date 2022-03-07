@@ -42,21 +42,32 @@ public class EmployeeController {
         return "employees/searchEmployeeList";
     }
 
-    @GetMapping("/employee/create/{code}")
+    @GetMapping("/employee/update/{code}")
     public String createForm(@PathVariable("code") int code, Model model) {
         model.addAttribute("code", code);
-        return "employees/createEmployeeForm";
+        return "employees/updateEmployee";
     }
 
-    @PostMapping("/employee/create")
+    @GetMapping("/employee/modify/{no}")
+    public String modifyForm(@PathVariable("no") Long no, Model model) {
+
+        Optional<Employee> employee = employeeService.findById(no);
+        if (employee.isEmpty()) return "error";
+
+        model.addAttribute("code", 9);
+        model.addAttribute("employee", employee.get());
+        return "employees/updateEmployee";
+    }
+
+    @PostMapping("/employee/update")
     public String create(EmployeeForm form) {
 
-        if (form.getId() == null) return "redirect:/employee/create/1";
-        if (form.getName().isEmpty()) return "redirect:/employee/create/2";
-        if (form.getPhone().isEmpty()) return "redirect:/employee/create/3";
-        if (form.getAddress().isEmpty()) return "redirect:/employee/create/4";
-        if (employeeService.isValidById(form.getId())) return "redirect:/employee/create/8";
-        if (employeeService.isValidByPhone(form.getPhone())) return "redirect:/employee/create/9";
+        if (form.getId() == null) return "redirect:/employee/update/1";
+        if (form.getName().isEmpty()) return "redirect:/employee/update/2";
+        if (form.getPhone().isEmpty()) return "redirect:/employee/update/3";
+        if (form.getAddress().isEmpty()) return "redirect:/employee/update/4";
+        if (employeeService.isValidById(form.getId())) return "redirect:/employee/update/5";
+        if (employeeService.isValidByPhone(form.getPhone())) return "redirect:/employee/update/6";
 
         Employee employee = new Employee();
 
@@ -69,16 +80,6 @@ public class EmployeeController {
         employeeService.join(employee);
 
         return "redirect:/employee";
-    }
-
-    @GetMapping("/employee/modify/{no}")
-    public String modifyForm(@PathVariable("no") Long no, Model model) {
-
-        Optional<Employee> employee = employeeService.findById(no);
-        if (employee.isEmpty()) return "error";
-
-        model.addAttribute("employee", employee.get());
-        return "employees/modifyEmployeeForm";
     }
 
     @PostMapping("/employee/modify/{no}")
