@@ -4,7 +4,7 @@ public class EmployeeForm {
 
     private String name, phone, address;
     private Long id;
-    private Boolean vaccine;
+    private int vaccine = -1;
 
     public String getName() {
         return name;
@@ -38,11 +38,11 @@ public class EmployeeForm {
         this.id = id;
     }
 
-    public Boolean getVaccine() {
+    public int getVaccine() {
         return vaccine;
     }
 
-    public void setVaccine(Boolean vaccine) {
+    public void setVaccine(int vaccine) {
         this.vaccine = vaccine;
     }
 }

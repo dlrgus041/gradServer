@@ -1,10 +1,14 @@
 function searchForm() {
     const form = document.getElementById("form");
+    form.children[1].value = null;
     form.children[1].disabled = (form.children[0].options[form.children[0].selectedIndex].value === "blank");
 }
 
-function deleteElement(id) {
-    if (confirm('해당 항목을 삭제하겠습니까?')) location.href='/employee/delete/' + id;
+function deleteElement(flag, id) {
+    if (confirm('해당 항목을 삭제하겠습니까?')) {
+        alert('삭제되었습니다.\n초기 화면으로 돌아갑니다.');
+        location.href = (flag ? '/employee' : '/visitor') + '/delete/' + id;
+    }
 }
 
 function switchPage(flag) {

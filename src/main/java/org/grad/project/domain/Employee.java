@@ -4,7 +4,7 @@ public class Employee {
 
     private Long id;
     private String name, phone, address;
-    private Boolean vaccine;
+    private int vaccine = -1;
 
     public Long getId() {
         return id;
@@ -38,11 +38,11 @@ public class Employee {
         this.address = address;
     }
 
-    public Boolean getVaccine() {
+    public int getVaccine() {
         return vaccine;
     }
 
-    public void setVaccine(Boolean vaccine) {
+    public void setVaccine(int vaccine) {
         this.vaccine = vaccine;
     }
 }

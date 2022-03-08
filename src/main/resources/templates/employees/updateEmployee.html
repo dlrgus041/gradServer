@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>직원 정보 수정</title>
+    <title>직원 정보 추가 및 수정</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="/css/navbar.css">
     <link rel="stylesheet" type="text/css" href="/css/inputForm.css">
@@ -11,37 +11,40 @@
 <nav class="navbar navbar-expand-sm">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Up-Temp</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link disabled" aria-current="page">직원 관리</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchPage(false)">방문자 관리</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
-<h1 style="margin: 20px; text-align: center;"></h1>
+<h1 style="margin: 20px; text-align: center;">직원 정보 추가 및 수정</h1>
 <div class="container" style="margin-left: auto; margin-right: auto;">
-    <form th:each="employee: ${employee}" th:action="'/employee/update/' + ${employee.id}" method="post">
+    <form th:each="employee: ${result}" th:action="'/employee/' + ${code == 9 ? ('modify/' + employee.id) : 'update'}" method="post">
         <table class="profile">
             <tr>
                 <td>번호</td>
-                <td><input type="text" id="id" name="id" th:value="${code == 9 ? employee.id : null}" disabled/></td>
+                <td><input autocomplete="off" type="text" id="id" name="id" th:value="${employee.id}" th:disabled="${code == 9}"/></td>
             </tr>
             <tr>
                 <td>이름</td>
-                <td><input type="text" id="name" name="name" th:value="${code == 9 ? employee.name : null}"/></td>
+                <td><input autocomplete="off" type="text" id="name" name="name" th:value="${employee.name}"/></td>
             </tr>
             <tr>
                 <td>전화번호</td>
-                <td><input type="text" id="phone" name="phone" th:value="${code == 9 ? employee.phone : null}"/></td>
+                <td><input autocomplete="off" type="text" id="phone" name="phone" th:value="${employee.phone}"/></td>
             </tr>
             <tr>
                 <td>주소</td>
-                <td><input type="text" id="address" name="address" th:value="${code == 9 ? employee.address : null}"/></td>
+                <td><input autocomplete="off" type="text" id="address" name="address" th:value="${employee.address}"/></td>
             </tr>
             <tr>
                 <td>접종여부</td>
                 <td class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: -webkit-fill-available;">
-                    <input type="radio" class="btn-check" name="vaccine" id="true" value="1" autocomplete="off" th:checked="${employee.vaccine}">
+                    <input type="radio" class="btn-check" name="vaccine" id="true" value="1" autocomplete="off" th:checked="${employee.vaccine == 1}">
                     <label class="btn btn-outline-primary" for="true">O</label>
-                    <input type="radio" class="btn-check" name="vaccine" id="false" value="0" autocomplete="off" th:checked="${!employee.vaccine}">
+                    <input type="radio" class="btn-check" name="vaccine" id="false" value="0" autocomplete="off" th:checked="${employee.vaccine == 0}">
                     <label class="btn btn-outline-primary" for="false">X</label>
                 </td>
             </tr>

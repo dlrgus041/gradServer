@@ -28,7 +28,8 @@ public class EmployeeController {
     @GetMapping("/employee")
     public String list(Model model) {
         List<Employee> employees = employeeService.findEmployees();
-        model.addAttribute("employees", employees);
+        model.addAttribute("result", employees);
+        model.addAttribute("main", true);
         return "employees/employeeList";
     }
 
@@ -37,39 +38,31 @@ public class EmployeeController {
 
         String parameter = request.getParameter("value");
         List<Employee> list = employeeService.search(domain, parameter);
-        model.addAttribute("search", list);
+        model.addAttribute("result", list);
+        model.addAttribute("main", false);
 
-        return "employees/searchEmployeeList";
+        return "employees/employeeList";
     }
 
-    @GetMapping("/employee/update/{code}")
-    public String createForm(@PathVariable("code") int code, Model model) {
-        model.addAttribute("code", code);
-        return "employees/updateEmployee";
-    }
-
-    @GetMapping("/employee/modify/{no}")
-    public String modifyForm(@PathVariable("no") Long no, Model model) {
-
-        Optional<Employee> employee = employeeService.findById(no);
-        if (employee.isEmpty()) return "error";
-
-        model.addAttribute("code", 9);
-        model.addAttribute("employee", employee.get());
+    @GetMapping("/employee/update")
+    public String createForm(Model model) {
+        model.addAttribute("code", 0);
+        model.addAttribute("result", new Employee());
         return "employees/updateEmployee";
     }
 
     @PostMapping("/employee/update")
-    public String create(EmployeeForm form) {
-
-        if (form.getId() == null) return "redirect:/employee/update/1";
-        if (form.getName().isEmpty()) return "redirect:/employee/update/2";
-        if (form.getPhone().isEmpty()) return "redirect:/employee/update/3";
-        if (form.getAddress().isEmpty()) return "redirect:/employee/update/4";
-        if (employeeService.isValidById(form.getId())) return "redirect:/employee/update/5";
-        if (employeeService.isValidByPhone(form.getPhone())) return "redirect:/employee/update/6";
+    public String create(EmployeeForm form, Model model) {
 
         Employee employee = new Employee();
+        int mask = 1;
+
+        if (form.getId() == null) mask |= (1 << 1);
+        if (form.getName().isEmpty()) mask |= (1 << 2);
+        if (form.getPhone().isEmpty()) mask |= (1 << 3);
+        if (form.getAddress().isEmpty()) mask |= (1 << 4);
+        if (employeeService.isValidById(form.getId())) mask |= (1 << 5);
+        if (employeeService.isValidByPhone(form.getPhone())) mask |= (1 << 6);
 
         employee.setId(form.getId());
         employee.setName(form.getName());
@@ -77,13 +70,33 @@ public class EmployeeController {
         employee.setAddress(form.getAddress());
         employee.setVaccine(form.getVaccine());
 
+        model.addAttribute("result", employee);
+
+        for (int i = 1; i <= 6; i++) {
+            if ((mask & (1 << i)) > 0) {
+                model.addAttribute("code", i);
+                return "employees/updateEmployee";
+            }
+        }
+
         employeeService.join(employee);
 
         return "redirect:/employee";
     }
 
+    @GetMapping("/employee/modify/{no}")
+    public String modifyGet(@PathVariable("no") Long no, Model model) {
+
+        Optional<Employee> employee = employeeService.findById(no);
+        if (employee.isEmpty()) return "error";
+
+        model.addAttribute("code", 9);
+        model.addAttribute("result", employee.get());
+        return "employees/updateEmployee";
+    }
+
     @PostMapping("/employee/modify/{no}")
-    public String modify(@PathVariable("no") Long no, EmployeeForm form) {
+    public String modifyPost(@PathVariable("no") Long no, EmployeeForm form) {
 
         Employee employee = new Employee();
         employeeService.deleteOne(no);

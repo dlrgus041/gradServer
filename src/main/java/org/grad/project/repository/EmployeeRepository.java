@@ -108,7 +108,7 @@ public class EmployeeRepository {
             employee.setName(rs.getString("name"));
             employee.setPhone(rs.getString("phone"));
             employee.setAddress(rs.getString("address"));
-            employee.setVaccine(rs.getBoolean("vaccine"));
+            employee.setVaccine(rs.getInt("vaccine"));
             return employee;
         };
     }
