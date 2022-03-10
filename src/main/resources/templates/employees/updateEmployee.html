@@ -17,18 +17,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link disabled" aria-current="page">직원 관리</a></li>
-                <li class="nav-item"><a class="nav-link" onclick="switchPage(false)">방문자 관리</a></li>
+                <li class="nav-item"><a class="nav-link active" onclick="switchPage(false)">방문자 관리</a></li>
             </ul>
         </div>
     </div>
 </nav>
 <h1 style="margin: 20px; text-align: center;">직원 정보 추가 및 수정</h1>
 <div class="container" style="margin-left: auto; margin-right: auto;">
-    <form th:each="employee: ${result}" th:action="'/employee/' + ${code == 9 ? ('modify/' + employee.id) : 'update'}" method="post">
+    <form th:each="employee: ${result}" th:action="'/employee/update/' + ${modify} + '/' + ${code}" method="post">
         <table class="profile">
             <tr>
-                <td>번호</td>
-                <td><input autocomplete="off" type="text" id="id" name="id" th:value="${employee.id}" th:disabled="${code == 9}"/></td>
+                <td>사원번호</td>
+                <td><input autocomplete="off" type="text" id="id" name="id" th:value="${employee.id}" th:disabled="${modify}"/></td>
             </tr>
             <tr>
                 <td>이름</td>
@@ -59,7 +59,7 @@
     </form>
 </div>
 <th:block th:switch="${code}">
-    <div th:case="1" class="alert alert-warning" role="alert">번호를 입력해주세요.</div>
+    <div th:case="1" class="alert alert-warning" role="alert">사원번호를 입력해주세요.</div>
     <div th:case="2" class="alert alert-warning" role="alert">이름을 입력해주세요.</div>
     <div th:case="3" class="alert alert-warning" role="alert">전화번호를 입력해주세요.</div>
     <div th:case="4" class="alert alert-warning" role="alert">주소를 입력해주세요.</div>

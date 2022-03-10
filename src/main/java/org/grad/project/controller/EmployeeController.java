@@ -47,22 +47,26 @@ public class EmployeeController {
     @GetMapping("/employee/update")
     public String createForm(Model model) {
         model.addAttribute("code", 0);
+        model.addAttribute("modify", false);
         model.addAttribute("result", new Employee());
         return "employees/updateEmployee";
     }
 
-    @PostMapping("/employee/update")
-    public String create(EmployeeForm form, Model model) {
+    @PostMapping("/employee/update/{modify}/{code}")
+    public String create(@PathVariable("modify") boolean modify,@PathVariable("code") Long code,
+                         EmployeeForm form, Model model) {
 
         Employee employee = new Employee();
         int mask = 1;
+
+        if (modify) form.setId(code);
 
         if (form.getId() == null) mask |= (1 << 1);
         if (form.getName().isEmpty()) mask |= (1 << 2);
         if (form.getPhone().isEmpty()) mask |= (1 << 3);
         if (form.getAddress().isEmpty()) mask |= (1 << 4);
-        if (employeeService.isValidById(form.getId())) mask |= (1 << 5);
-        if (employeeService.isValidByPhone(form.getPhone())) mask |= (1 << 6);
+        if (!modify && employeeService.isValidById(form.getId())) mask |= (1 << 5);
+        if (!modify && employeeService.isValidByPhone(form.getPhone())) mask |= (1 << 6);
 
         employee.setId(form.getId());
         employee.setName(form.getName());
@@ -71,6 +75,7 @@ public class EmployeeController {
         employee.setVaccine(form.getVaccine());
 
         model.addAttribute("result", employee);
+        model.addAttribute("modify", modify);
 
         for (int i = 1; i <= 6; i++) {
             if ((mask & (1 << i)) > 0) {
@@ -78,6 +83,8 @@ public class EmployeeController {
                 return "employees/updateEmployee";
             }
         }
+
+        if (modify) employeeService.deleteOne(code);
 
         employeeService.join(employee);
 
@@ -90,26 +97,10 @@ public class EmployeeController {
         Optional<Employee> employee = employeeService.findById(no);
         if (employee.isEmpty()) return "error";
 
-        model.addAttribute("code", 9);
+        model.addAttribute("code", no);
+        model.addAttribute("modify", true);
         model.addAttribute("result", employee.get());
         return "employees/updateEmployee";
-    }
-
-    @PostMapping("/employee/modify/{no}")
-    public String modifyPost(@PathVariable("no") Long no, EmployeeForm form) {
-
-        Employee employee = new Employee();
-        employeeService.deleteOne(no);
-
-        employee.setId(no);
-        employee.setName(form.getName());
-        employee.setPhone(form.getPhone());
-        employee.setAddress(form.getAddress());
-        employee.setVaccine(form.getVaccine());
-
-        employeeService.join(employee);
-
-        return "redirect:/employee";
     }
 
     @GetMapping("/employee/delete/{no}")

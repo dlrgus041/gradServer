@@ -1,6 +1,5 @@
 package org.grad.project.controller;
 
-import org.grad.project.domain.Employee;
 import org.grad.project.domain.Visitor;
 import org.grad.project.form.VisitorForm;
 import org.grad.project.service.VisitorService;
@@ -48,12 +47,14 @@ public class VisitorController {
     @GetMapping("/visitor/update")
     public String createForm(Model model) {
         model.addAttribute("code", 0);
+        model.addAttribute("modify", false);
         model.addAttribute("result", new Visitor());
         return "visitors/updateVisitor";
     }
 
-    @PostMapping("/visitor/update")
-    public String create(VisitorForm form, Model model) {
+    @PostMapping("/visitor/update/{modify}/{code}")
+    public String create(@PathVariable("modify") boolean modify, @PathVariable("code") Long code,
+                         VisitorForm form, Model model) {
 
         Visitor visitor = new Visitor();
         int mask = 1;
@@ -61,13 +62,14 @@ public class VisitorController {
         if (form.getName().isEmpty()) mask |= (1 << 2);
         if (form.getPhone().isEmpty()) mask |= (1 << 3);
         if (form.getAddress().isEmpty()) mask |= (1 << 4);
-        if (visitorService.isValid(form.getPhone())) mask |= (1 << 6);
+        if (!modify && visitorService.isValid(form.getPhone())) mask |= (1 << 6);
 
         visitor.setName(form.getName());
         visitor.setPhone(form.getPhone());
         visitor.setAddress(form.getAddress());
 
         model.addAttribute("result", visitor);
+        model.addAttribute("modify", modify);
 
         for (int i = 1; i <= 6; i++) {
             if ((mask & (1 << i)) > 0) {
@@ -75,6 +77,8 @@ public class VisitorController {
                 return "visitors/updateVisitor";
             }
         }
+
+        if (modify) visitorService.deleteOne(code);
 
         visitorService.join(visitor);
 
@@ -87,24 +91,10 @@ public class VisitorController {
         Optional<Visitor> visitor = visitorService.findOne(no);
         if (visitor.isEmpty()) return "error";
 
-        model.addAttribute("code", 9);
+        model.addAttribute("code", no);
+        model.addAttribute("modify", true);
         model.addAttribute("result", visitor.get());
         return "visitors/updateVisitor";
-    }
-
-    @PostMapping("/visitor/modify/{no}")
-    public String modify(@PathVariable("no") Long no, VisitorForm form) {
-
-        Visitor visitor = new Visitor();
-        visitorService.deleteOne(no);
-
-        visitor.setName(form.getName());
-        visitor.setPhone(form.getPhone());
-        visitor.setAddress(form.getAddress());
-
-        visitorService.join(visitor);
-
-        return "redirect:/visitor";
     }
 
     @GetMapping("/visitor/delete/{no}")

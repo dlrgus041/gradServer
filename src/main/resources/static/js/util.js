@@ -2,6 +2,13 @@ function searchForm() {
     const form = document.getElementById("form");
     form.children[1].value = null;
     form.children[1].disabled = (form.children[0].options[form.children[0].selectedIndex].value === "blank");
+    // if (form.children[0].options[form.children[0].selectedIndex].value === "vaccine") {
+    //     form.children[1].hidden = true;
+    //     form.children[2].hidden = false;
+    // } else {
+    //     form.children[1].hidden = false;
+    //     form.children[2].hidden = true;
+    // }
 }
 
 function deleteElement(flag, id) {
