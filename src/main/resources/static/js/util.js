@@ -19,7 +19,7 @@ function deleteElement(flag, id) {
 }
 
 function switchPage(flag) {
-    if (confirm((flag ? '직원 관리' : '방문자 관리') + ' 페이지로 이동합니다.\n(주의 : 완료되지 않은 작업은 저장되지 않습니다.)')) {
-        location.href = flag ? '/employee' : '/visitor'
+    if (confirm((flag > 0 ? '직원 관리' : flag < 0 ? '방문자 관리' : '출입자 목록') + ' 페이지로 이동합니다.\n(주의 : 완료되지 않은 작업은 저장되지 않습니다.)')) {
+        location.href = flag > 0 ? '/employee' : flag < 0 ? '/visitor' : '/entry'
     }
 }

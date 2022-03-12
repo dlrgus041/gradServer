@@ -27,3 +27,9 @@ th, td {
 .dropdown {
     font-size: 20px;
 }
+
+.alert {
+    margin: 1rem;
+    text-align: center;
+    font-size: 20px;
+}
