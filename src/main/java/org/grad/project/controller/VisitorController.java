@@ -64,6 +64,7 @@ public class VisitorController {
         if (form.getAddress().isEmpty()) mask |= (1 << 4);
         if (!modify && visitorService.isValid(form.getPhone())) mask |= (1 << 6);
 
+        visitor.setId(form.getId());
         visitor.setName(form.getName());
         visitor.setPhone(form.getPhone());
         visitor.setAddress(form.getAddress());

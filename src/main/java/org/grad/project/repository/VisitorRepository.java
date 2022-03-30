@@ -27,15 +27,15 @@ public class VisitorRepository {
     public Visitor save(Visitor visitor) {
 
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName("grad.visitor").usingGeneratedKeyColumns("id");
+        jdbcInsert.withTableName("grad.visitor");
 
         Map<String, Object> parameters = new HashMap<>();
+        parameters.put("id", encrypt());
         parameters.put("name", visitor.getName());
         parameters.put("phone", visitor.getPhone());
         parameters.put("address", visitor.getAddress());
 
-        Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
-        visitor.setId(key.longValue());
+        jdbcInsert.execute(new MapSqlParameterSource(parameters));
         return visitor;
     }
 
@@ -105,5 +105,25 @@ public class VisitorRepository {
             visitor.setAddress(rs.getString("address"));
             return visitor;
         };
+    }
+
+    private Long encrypt() {
+
+        int[] code = new int[7];
+        int sum = code[1] = 2;
+
+        for (int i = 2; i < 6; i++) {
+            code[i] = (int)(Math.random() * 10);
+            sum += i * code[i];
+        }
+
+        code[6] = sum % 7;
+
+        long ret = 0L;
+        for (int i = 6; i > 0; i--) {
+            for (int j = i; j < 6; j++) code[i] *= 10;
+            ret += code[i];
+        }
+        return ret;
     }
 }

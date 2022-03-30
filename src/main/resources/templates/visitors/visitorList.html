@@ -26,15 +26,8 @@
                         <option value="name">이름</option>
                         <option value="phone">전화번호</option>
                         <option value="address">주소</option>
-<!--                        <option value="vaccine">접종여부</option>-->
                     </select>
                     <input class="me-1" type="text" name="value" disabled autocomplete="off">
-<!--                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: -webkit-fill-available;" hidden>-->
-<!--                        <input type="radio" class="btn-check" name="value" id="radio1" autocomplete="off">-->
-<!--                        <label class="btn btn-outline-primary" for="radio1">O</label>-->
-<!--                        <input type="radio" class="btn-check" name="value" id="radio2" autocomplete="off">-->
-<!--                        <label class="btn btn-outline-primary" for="radio2">X</label>-->
-<!--                    </div>-->
                     <button class="btn btn-success" type="submit">검색</button>
                 </form>
             </th:block>
@@ -47,6 +40,7 @@
         <table>
             <thead>
             <tr id="title">
+                <th>개인식별번호</th>
                 <th>이름</th>
                 <th>전화번호</th>
                 <th>주소</th>
@@ -56,6 +50,7 @@
             </thead>
             <tbody>
             <tr id="entity" th:each="visitor : ${result}">
+                <td th:text="${visitor.id}"></td>
                 <td th:text="${visitor.name}"></td>
                 <td th:text="${visitor.phone}"></td>
                 <td th:text="${visitor.address}"></td>
@@ -65,7 +60,7 @@
             </tbody>
         </table>
     </div>
-</div> <!-- /container -->
+</div>
 <div id="btn">
     <a class="btn btn-primary btn-lg" href="/visitor/update" role="button">추가</a>
     <a class="btn btn-secondary btn-lg" th:href="${main ? '/' : '/visitor'}" role="button">뒤로 가기</a>
