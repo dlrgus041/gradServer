@@ -70,6 +70,7 @@ public class EmployeeController {
         employee.setName(form.getName());
         employee.setPhone(form.getPhone());
         employee.setAddress(Table.codeToAddress(form.getAddress1(), form.getAddress2()));
+        employee.setCode(form.getAddress1() * 100 + form.getAddress2());
 
         model.addAttribute("result", employee);
         model.addAttribute("modify", modify);

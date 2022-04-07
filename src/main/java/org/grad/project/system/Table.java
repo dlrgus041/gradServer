@@ -1,6 +1,7 @@
 package org.grad.project.system;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Table {
 
@@ -49,9 +50,18 @@ public class Table {
     }
 
     public static int addressToCode(String address) {
+
         String[] temp = address.split(" ");
-        int code1 = Arrays.binarySearch(table[0], temp[0]) + 1;
-        int code2 = Arrays.binarySearch(table[code1], temp[1]) + 1;
+        int code1 = 0, code2 = 0;
+
+        for (int i = 0; i < table[0].length; i++) {
+            if (Objects.equals(table[0][i], temp[0])) {
+                code1 = ++i;
+                break;
+            }
+        }
+
+        code2 = Arrays.binarySearch(table[code1], temp[1]) + 1;
         return 100 * code1 + code2;
     }
 

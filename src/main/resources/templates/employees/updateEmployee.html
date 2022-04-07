@@ -16,9 +16,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active" onclick="switchPage(0)">출입자 목록</a></li>
-                <li class="nav-item"><a class="nav-link disabled" aria-current="page">직원 관리</a></li>
-                <li class="nav-item"><a class="nav-link active" onclick="switchPage(-1)">방문자 관리</a></li>
+                <li class="nav-option"><a class="nav-link active" onclick="switchPage(0)">출입자 목록</a></li>
+                <li class="nav-option"><a class="nav-link disabled" aria-current="page">직원 관리</a></li>
+                <li class="nav-option"><a class="nav-link active" onclick="switchPage(-1)">방문자 관리</a></li>
             </ul>
         </div>
     </div>
@@ -29,20 +29,20 @@
         <table class="profile">
             <tr>
                 <td>사원번호</td>
-                <td><input autocomplete="off" type="text" id="id" name="id" th:value="${employee.id}" th:disabled="${modify}"/></td>
+                <td><input autocomplete="off" type="text" name="id" th:value="${employee.id}" th:disabled="${modify}"/></td>
             </tr>
             <tr>
                 <td>이름</td>
-                <td><input autocomplete="off" type="text" id="name" name="name" th:value="${employee.name}"/></td>
+                <td><input autocomplete="off" type="text" name="name" th:value="${employee.name}"/></td>
             </tr>
             <tr>
                 <td>전화번호</td>
-                <td><input autocomplete="off" type="text" id="phone" name="phone" th:value="${employee.phone}"/></td>
+                <td><input autocomplete="off" type="text" name="phone" th:value="${employee.phone}"/></td>
             </tr>
             <tr>
                 <td>주소</td>
                 <td>
-                    <select id="address1" name="address1" onchange="selectAddress1(this.value)">
+                    <select name="address1" onchange="selectAddress1(this.value)">
                         <option value="0" th:selected="${employee.code / 100 == 0}">'도/시' 선택</option>
                         <option value="1" th:selected="${employee.code / 100 == 1}">서울특별시</option>
                         <option value="2" th:selected="${employee.code / 100 == 2}">광주광역시</option>
@@ -66,10 +66,309 @@
             </tr>
             <tr>
                 <td></td>
-                <td>
-                    <select id="address2" name="address2" disabled>
-                    <option value="0">시/군/구</option>
-                    </select>
+                <td id="address2">
+                    <th:block th:switch="${employee.code / 100}">
+                        <select th:case="0" name="address2" disabled>
+                            <option value="0">시/군/구</option>
+                        </select>
+
+                        <select th:case="1" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">"터치하여 '군/구' 선택"</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">강남구</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">강동구</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">강북구</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">강서구</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">관악구</option>
+                            <option value="6" th:selected="${employee.code % 100 == 6}">광진구</option>
+                            <option value="7" th:selected="${employee.code % 100 == 7}">구로구</option>
+                            <option value="8" th:selected="${employee.code % 100 == 8}">금천구</option>
+                            <option value="9" th:selected="${employee.code % 100 == 9}">노원구</option>
+                            <option value="10" th:selected="${employee.code % 100 == 10}">도봉구</option>
+                            <option value="11" th:selected="${employee.code % 100 == 11}">동대문구</option>
+                            <option value="12" th:selected="${employee.code % 100 == 12}">동작구</option>
+                            <option value="13" th:selected="${employee.code % 100 == 13}">마포구</option>
+                            <option value="14" th:selected="${employee.code % 100 == 14}">서대문구</option>
+                            <option value="15" th:selected="${employee.code % 100 == 15}">서초구</option>
+                            <option value="16" th:selected="${employee.code % 100 == 16}">성동구</option>
+                            <option value="17" th:selected="${employee.code % 100 == 17}">성북구</option>
+                            <option value="18" th:selected="${employee.code % 100 == 18}">송파구</option>
+                            <option value="19" th:selected="${employee.code % 100 == 19}">양천구</option>
+                            <option value="20" th:selected="${employee.code % 100 == 20}">영등포구</option>
+                            <option value="21" th:selected="${employee.code % 100 == 21}">용산구</option>
+                            <option value="22" th:selected="${employee.code % 100 == 22}">은평구</option>
+                            <option value="23" th:selected="${employee.code % 100 == 23}">종로구</option>
+                            <option value="24" th:selected="${employee.code % 100 == 24}">중구</option>
+                            <option value="25" th:selected="${employee.code % 100 == 25}">중랑구</option>
+                        </select>
+
+                        <select th:case="2" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'군/구' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">광산구</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">남구</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">동구</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">북구</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">서구</option>
+                        </select>
+
+                        <select th:case="3" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'군/구' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">남구</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">달서구</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">동구</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">북구</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">서구</option>
+                            <option value="6" th:selected="${employee.code % 100 == 6}">수성구</option>
+                            <option value="7" th:selected="${employee.code % 100 == 7}">중구</option>
+                        </select>
+
+                        <select th:case="4" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'군/구' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">대덕구</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">동구</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">서구</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">유성구</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">중구</option>
+                        </select>
+
+                        <select th:case="5" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'군/구' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">강서구</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">금정구</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">기장군</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">남구</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">동구</option>
+                            <option value="6" th:selected="${employee.code % 100 == 6}">동래구</option>
+                            <option value="7" th:selected="${employee.code % 100 == 7}">부산진구</option>
+                            <option value="8" th:selected="${employee.code % 100 == 8}">북구</option>
+                            <option value="9" th:selected="${employee.code % 100 == 9}">사상구</option>
+                            <option value="10" th:selected="${employee.code % 100 == 10}">사하구</option>
+                            <option value="11" th:selected="${employee.code % 100 == 11}">서구</option>
+                            <option value="12" th:selected="${employee.code % 100 == 12}">수영구</option>
+                            <option value="13" th:selected="${employee.code % 100 == 13}">연제구</option>
+                            <option value="14" th:selected="${employee.code % 100 == 14}">영도구</option>
+                            <option value="15" th:selected="${employee.code % 100 == 15}">중구</option>
+                            <option value="16" th:selected="${employee.code % 100 == 16}">해운대구</option>
+                        </select>
+
+                        <select th:case="6" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'군/구' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">남구</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">동구</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">북구</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">울주군</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">중구</option>
+                        </select>
+
+                        <select th:case="7" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'군/구' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">강화군</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">계양구</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">남동구</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">동구</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">미추홀구</option>
+                            <option value="6" th:selected="${employee.code % 100 == 6}">부평구</option>
+                            <option value="7" th:selected="${employee.code % 100 == 7}">서구</option>
+                            <option value="8" th:selected="${employee.code % 100 == 8}">연수구</option>
+                            <option value="9" th:selected="${employee.code % 100 == 9}">옹진군</option>
+                            <option value="10" th:selected="${employee.code % 100 == 10}">중구</option>
+                        </select>
+
+                        <select th:case="8" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">세종시</option>
+                        </select>
+
+                        <select th:case="9" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'시/군' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">강릉</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">고성</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">동해</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">삼척</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">속초</option>
+                            <option value="6" th:selected="${employee.code % 100 == 6}">양구</option>
+                            <option value="7" th:selected="${employee.code % 100 == 7}">양양</option>
+                            <option value="8" th:selected="${employee.code % 100 == 8}">영월</option>
+                            <option value="9" th:selected="${employee.code % 100 == 9}">원주</option>
+                            <option value="10" th:selected="${employee.code % 100 == 10}">인제</option>
+                            <option value="11" th:selected="${employee.code % 100 == 11}">정선</option>
+                            <option value="12" th:selected="${employee.code % 100 == 12}">철원</option>
+                            <option value="13" th:selected="${employee.code % 100 == 13}">춘천</option>
+                            <option value="14" th:selected="${employee.code % 100 == 14}">태백</option>
+                            <option value="15" th:selected="${employee.code % 100 == 15}">평창</option>
+                            <option value="16" th:selected="${employee.code % 100 == 16}">홍천</option>
+                            <option value="17" th:selected="${employee.code % 100 == 17}">화천</option>
+                            <option value="18" th:selected="${employee.code % 100 == 18}">횡성</option>
+                        </select>
+
+                        <select th:case="10" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'시/군' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">가평</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">고양</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">과천</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">광명</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">광주</option>
+                            <option value="6" th:selected="${employee.code % 100 == 6}">구리</option>
+                            <option value="7" th:selected="${employee.code % 100 == 7}">군포</option>
+                            <option value="8" th:selected="${employee.code % 100 == 8}">김포</option>
+                            <option value="9" th:selected="${employee.code % 100 == 9}">남양주</option>
+                            <option value="10" th:selected="${employee.code % 100 == 10}">동두천</option>
+                            <option value="11" th:selected="${employee.code % 100 == 0}">부천</option>
+                            <option value="12" th:selected="${employee.code % 100 == 0}">성남</option>
+                            <option value="13" th:selected="${employee.code % 100 == 0}">수원</option>
+                            <option value="14" th:selected="${employee.code % 100 == 0}">시흥</option>
+                            <option value="15" th:selected="${employee.code % 100 == 0}">안산</option>
+                            <option value="16" th:selected="${employee.code % 100 == 0}">안성</option>
+                            <option value="17" th:selected="${employee.code % 100 == 0}">안양</option>
+                            <option value="18" th:selected="${employee.code % 100 == 0}">양주</option>
+                            <option value="19" th:selected="${employee.code % 100 == 0}">양평</option>
+                            <option value="20" th:selected="${employee.code % 100 == 0}">여주</option>
+                            <option value="21" th:selected="${employee.code % 100 == 0}">연천</option>
+                            <option value="22" th:selected="${employee.code % 100 == 0}">오산</option>
+                            <option value="23" th:selected="${employee.code % 100 == 0}">용인</option>
+                            <option value="24" th:selected="${employee.code % 100 == 24}">의왕</option>
+                            <option value="25" th:selected="${employee.code % 100 == 25}">의정부</option>
+                            <option value="26" th:selected="${employee.code % 100 == 26}">이천</option>
+                            <option value="27" th:selected="${employee.code % 100 == 27}">파주</option>
+                            <option value="28" th:selected="${employee.code % 100 == 28}">평택</option>
+                            <option value="29" th:selected="${employee.code % 100 == 29}">포천</option>
+                            <option value="30" th:selected="${employee.code % 100 == 30}">하남</option>
+                            <option value="31" th:selected="${employee.code % 100 == 31}">화성</option>
+                        </select>
+
+                        <select th:case="11" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'시/군' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">거제</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">거창</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">고성</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">김해</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">남해</option>
+                            <option value="6" th:selected="${employee.code % 100 == 6}">밀양</option>
+                            <option value="7" th:selected="${employee.code % 100 == 7}">사천</option>
+                            <option value="8" th:selected="${employee.code % 100 == 8}">산청</option>
+                            <option value="9" th:selected="${employee.code % 100 == 9}">양산</option>
+                            <option value="10" th:selected="${employee.code % 100 == 10}">의령</option>
+                            <option value="11" th:selected="${employee.code % 100 == 11}">진주</option>0
+                            <option value="12" th:selected="${employee.code % 100 == 12}">창녕</option>
+                            <option value="13" th:selected="${employee.code % 100 == 13}">창원</option>
+                            <option value="14" th:selected="${employee.code % 100 == 14}">통영</option>
+                            <option value="15" th:selected="${employee.code % 100 == 15}">하동</option>
+                            <option value="16" th:selected="${employee.code % 100 == 16}">함안</option>
+                            <option value="17" th:selected="${employee.code % 100 == 17}">함양</option>
+                            <option value="18" th:selected="${employee.code % 100 == 18}">합천</option>
+                        </select>
+
+                        <select th:case="12" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'시/군' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">경산</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">경주</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">고령</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">구미</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">군위</option>
+                            <option value="6" th:selected="${employee.code % 100 == 6}">김천</option>
+                            <option value="7" th:selected="${employee.code % 100 == 7}">문경</option>
+                            <option value="8" th:selected="${employee.code % 100 == 8}">봉화</option>
+                            <option value="9" th:selected="${employee.code % 100 == 9}">상주</option>
+                            <option value="10" th:selected="${employee.code % 100 == 10}">성주</option>
+                            <option value="11" th:selected="${employee.code % 100 == 11}">안동</option>
+                            <option value="12" th:selected="${employee.code % 100 == 12}">영양</option>
+                            <option value="13" th:selected="${employee.code % 100 == 13}">영덕</option>
+                            <option value="14" th:selected="${employee.code % 100 == 14}">영주</option>
+                            <option value="15" th:selected="${employee.code % 100 == 15}">영천</option>
+                            <option value="16" th:selected="${employee.code % 100 == 16}">예천</option>
+                            <option value="17" th:selected="${employee.code % 100 == 17}">울릉</option>
+                            <option value="18" th:selected="${employee.code % 100 == 18}">울진</option>
+                            <option value="19" th:selected="${employee.code % 100 == 19}">의성</option>
+                            <option value="20" th:selected="${employee.code % 100 == 20}">청도</option>
+                            <option value="21" th:selected="${employee.code % 100 == 21}">청송</option>
+                            <option value="22" th:selected="${employee.code % 100 == 22}">칠곡</option>
+                            <option value="23" th:selected="${employee.code % 100 == 23}">포항</option>
+                        </select>
+
+                        <select th:case="13" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'시/군' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">강진</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">고흥</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">곡성</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">광양</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">구례</option>
+                            <option value="6" th:selected="${employee.code % 100 == 6}">나주</option>
+                            <option value="7" th:selected="${employee.code % 100 == 7}">담양</option>
+                            <option value="8" th:selected="${employee.code % 100 == 8}">목포</option>
+                            <option value="9" th:selected="${employee.code % 100 == 9}">무안</option>
+                            <option value="10" th:selected="${employee.code % 100 == 10}">보성</option>
+                            <option value="11" th:selected="${employee.code % 100 == 11}">순천</option>
+                            <option value="12" th:selected="${employee.code % 100 == 13}">신안</option>
+                            <option value="13" th:selected="${employee.code % 100 == 14}">여수</option>
+                            <option value="14" th:selected="${employee.code % 100 == 15}">영광</option>
+                            <option value="15" th:selected="${employee.code % 100 == 16}">영암</option>
+                            <option value="16" th:selected="${employee.code % 100 == 17}">완도</option>
+                            <option value="17" th:selected="${employee.code % 100 == 18}">장성</option>
+                            <option value="18" th:selected="${employee.code % 100 == 19}">장흥</option>
+                            <option value="19" th:selected="${employee.code % 100 == 20}">진도</option>
+                            <option value="20" th:selected="${employee.code % 100 == 21}">함평</option>
+                            <option value="21" th:selected="${employee.code % 100 == 22}">해남</option>
+                            <option value="22" th:selected="${employee.code % 100 == 23}">화순</option>
+                        </select>
+
+                        <select th:case="14" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'시/군' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">고창</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">군산</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">김제</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">남원</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">무주</option>
+                            <option value="6" th:selected="${employee.code % 100 == 6}">부안</option>
+                            <option value="7" th:selected="${employee.code % 100 == 7}">순창</option>
+                            <option value="8" th:selected="${employee.code % 100 == 8}">완주</option>
+                            <option value="9" th:selected="${employee.code % 100 == 9}">익산</option>
+                            <option value="10" th:selected="${employee.code % 100 == 10}">임실</option>
+                            <option value="11" th:selected="${employee.code % 100 == 11}">장수</option>
+                            <option value="12" th:selected="${employee.code % 100 == 12}">전주</option>
+                            <option value="13" th:selected="${employee.code % 100 == 13}">정읍</option>
+                            <option value="14" th:selected="${employee.code % 100 == 14}">진안</option>
+                        </select>
+
+                        <select th:case="15" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'시/군' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">계룡</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">공주</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">금산</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">논산</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">당진</option>
+                            <option value="6" th:selected="${employee.code % 100 == 6}">보령</option>
+                            <option value="7" th:selected="${employee.code % 100 == 7}">부여</option>
+                            <option value="8" th:selected="${employee.code % 100 == 8}">서산</option>
+                            <option value="9" th:selected="${employee.code % 100 == 9}">서천</option>
+                            <option value="10" th:selected="${employee.code % 100 == 10}">아산</option>
+                            <option value="11" th:selected="${employee.code % 100 == 11}">예산</option>
+                            <option value="12" th:selected="${employee.code % 100 == 12}">천안</option>
+                            <option value="13" th:selected="${employee.code % 100 == 13}">청양</option>
+                            <option value="14" th:selected="${employee.code % 100 == 14}">태안</option>
+                            <option value="15" th:selected="${employee.code % 100 == 15}">홍성</option>
+                        </select>
+
+                        <select th:case="16" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">'시/군' 선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">괴산</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">단양</option>
+                            <option value="3" th:selected="${employee.code % 100 == 3}">보은</option>
+                            <option value="4" th:selected="${employee.code % 100 == 4}">영동</option>
+                            <option value="5" th:selected="${employee.code % 100 == 5}">옥천</option>
+                            <option value="6" th:selected="${employee.code % 100 == 6}">음성</option>
+                            <option value="7" th:selected="${employee.code % 100 == 7}">제천</option>
+                            <option value="8" th:selected="${employee.code % 100 == 8}">증평</option>
+                            <option value="9" th:selected="${employee.code % 100 == 9}">진천</option>
+                            <option value="10" th:selected="${employee.code % 100 == 10}">청주</option>
+                            <option value="11" th:selected="${employee.code % 100 == 11}">충주</option>
+                        </select>
+
+                        <select th:case="17" name="address2">
+                            <option value="0" th:selected="${employee.code % 100 == 0}">선택</option>
+                            <option value="1" th:selected="${employee.code % 100 == 1}">서귀포</option>
+                            <option value="2" th:selected="${employee.code % 100 == 2}">제주</option>
+                        </select>
+
+                    </th:block>
                 </td>
             </tr>
         </table>

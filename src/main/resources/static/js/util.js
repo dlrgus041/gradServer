@@ -1,7 +1,5 @@
 const form = document.getElementById("form");
-const address1 = document.getElementById("address1");
 const address2 = document.getElementById("address2");
-const addressList = document.querySelectorAll(".address2");
 
 const table = [
     [
@@ -63,14 +61,16 @@ function switchPage(flag) {
 
 function selectAddress1(code1) {
 
-    address2.options.length = 0;
-    address2.disabled = (code1 === 0)
+    address2.removeChild(address2.children[0]);
+    let el = document.createElement("select");
+    el.name = "address2";
 
     for (let x in table[code1]) {
         let opt = document.createElement("option");
         opt.value = x;
         opt.innerText = table[code1][x];
-        address2.appendChild(opt);
+        el.appendChild(opt);
     }
 
+    address2.appendChild(el);
 }
