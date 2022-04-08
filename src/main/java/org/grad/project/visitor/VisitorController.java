@@ -1,5 +1,6 @@
 package org.grad.project.visitor;
 
+import org.grad.project.system.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,13 +59,14 @@ public class VisitorController {
 
         if (form.getName().isEmpty()) mask |= (1 << 2);
         if (form.getPhone().isEmpty()) mask |= (1 << 3);
-        if (form.getAddress().isEmpty()) mask |= (1 << 4);
+        if (form.getAddress1() * form.getAddress2() == 0) mask |= (1 << 4);
         if (!modify && visitorService.isValid(form.getPhone())) mask |= (1 << 6);
 
         visitor.setId(form.getId());
         visitor.setName(form.getName());
         visitor.setPhone(form.getPhone());
-        visitor.setAddress(form.getAddress());
+        visitor.setAddress(Table.codeToAddress(form.getAddress1(), form.getAddress2()));
+        visitor.setCode(form.getAddress1() * 100 + form.getAddress2());
 
         model.addAttribute("result", visitor);
         model.addAttribute("modify", modify);
@@ -76,9 +78,8 @@ public class VisitorController {
             }
         }
 
-        if (modify) visitorService.deleteOne(code);
-
-        visitorService.join(visitor);
+        if (modify) visitorService.update(visitor);
+        else visitorService.join(visitor);
 
         return "redirect:/visitor";
     }

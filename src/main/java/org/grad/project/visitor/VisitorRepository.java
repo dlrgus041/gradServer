@@ -1,5 +1,6 @@
 package org.grad.project.visitor;
 
+import org.grad.project.system.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -102,6 +103,7 @@ public class VisitorRepository {
             visitor.setName(rs.getString("name"));
             visitor.setPhone(rs.getString("phone"));
             visitor.setAddress(rs.getString("address"));
+            visitor.setCode(Table.addressToCode(visitor.getAddress()));
             return visitor;
         };
     }

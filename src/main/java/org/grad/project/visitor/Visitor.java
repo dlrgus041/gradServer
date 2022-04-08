@@ -4,6 +4,7 @@ public class Visitor {
 
     private Long id;
     private String name, phone, address;
+    private int code;
 
     public Long getId() {
         return id;
@@ -36,5 +37,13 @@ public class Visitor {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 }
