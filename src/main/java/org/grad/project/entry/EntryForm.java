@@ -1,10 +1,9 @@
-package org.grad.project.employee;
+package org.grad.project.entry;
 
-public class EmployeeForm {
+public class EntryForm {
 
     private String name, phone;
-    private Long id;
-    private int address1, address2;
+    private int id, address1, address2;
 
     public String getName() {
         return name;
@@ -22,11 +21,11 @@ public class EmployeeForm {
         this.phone = phone;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

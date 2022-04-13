@@ -2,16 +2,8 @@ package org.grad.project.entry;
 
 public class Entry {
 
-    private Long id;
     private String name, phone, address;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private int id, code;
 
     public String getName() {
         return name;
@@ -35,5 +27,25 @@ public class Entry {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public boolean compare(String phone, String address) {
+        return phone.equals(getPhone()) && address.equals(getAddress());
     }
 }

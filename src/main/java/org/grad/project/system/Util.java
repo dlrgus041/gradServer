@@ -1,9 +1,52 @@
 package org.grad.project.system;
 
+import org.grad.project.entry.Entry;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class Table {
+public class Util {
+
+    private static final ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+    private static PrintWriter writer;
+
+    static {
+        try {
+            writer = new PrintWriter("log.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String codeToAddress(int code) {
+        code -= 1000;
+        return codeToAddress(code / 100, code % 100);
+    }
+
+    public static String codeToAddress(int code1, int code2) {
+        return table[0][code1 - 1] + " " + table[code1][code2 - 1];
+    }
+
+    public static int addressToCode(String address) {
+
+        String[] temp = address.split(" ");
+        int code1 = 0, code2 = 0;
+
+        for (int i = 0; i < table[0].length; i++) {
+            if (Objects.equals(table[0][i], temp[0])) {
+                code1 = ++i;
+                break;
+            }
+        }
+
+        code2 = Arrays.binarySearch(table[code1], temp[1]) + 1;
+        return 100 * code1 + code2;
+    }
 
     private static final String[][] table = {
             {
@@ -44,25 +87,5 @@ public class Table {
                 "서귀포", "제주"
             }
     };
-
-    public static String codeToAddress(int code1, int code2) {
-        return table[0][code1 - 1] + " " + table[code1][code2 - 1];
-    }
-
-    public static int addressToCode(String address) {
-
-        String[] temp = address.split(" ");
-        int code1 = 0, code2 = 0;
-
-        for (int i = 0; i < table[0].length; i++) {
-            if (Objects.equals(table[0][i], temp[0])) {
-                code1 = ++i;
-                break;
-            }
-        }
-
-        code2 = Arrays.binarySearch(table[code1], temp[1]) + 1;
-        return 100 * code1 + code2;
-    }
 
 }

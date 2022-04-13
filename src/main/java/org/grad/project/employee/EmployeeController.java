@@ -1,6 +1,8 @@
 package org.grad.project.employee;
 
-import org.grad.project.system.Table;
+import org.grad.project.entry.Entry;
+import org.grad.project.entry.EntryForm;
+import org.grad.project.system.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +27,7 @@ public class EmployeeController {
 
     @GetMapping("/employee")
     public String list(Model model) {
-        List<Employee> employees = employeeService.findEmployees();
+        List<Entry> employees = employeeService.findEmployees();
         model.addAttribute("result", employees);
         model.addAttribute("main", true);
         return "employees/employeeList";
@@ -35,7 +37,7 @@ public class EmployeeController {
     public String search(@RequestParam("domain") String domain, Model model, HttpServletRequest request) {
 
         String parameter = request.getParameter("value");
-        List<Employee> list = employeeService.search(domain, parameter);
+        List<Entry> list = employeeService.search(domain, parameter);
         model.addAttribute("result", list);
         model.addAttribute("main", false);
 
@@ -46,20 +48,20 @@ public class EmployeeController {
     public String createForm(Model model) {
         model.addAttribute("code", 0);
         model.addAttribute("modify", false);
-        model.addAttribute("result", new Employee());
+        model.addAttribute("result", new Entry());
         return "employees/updateEmployee";
     }
 
     @PostMapping("/employee/update/{modify}/{code}")
-    public String create(@PathVariable("modify") boolean modify,@PathVariable("code") Long code,
-                         EmployeeForm form, Model model) {
+    public String create(@PathVariable("modify") boolean modify, @PathVariable("code") int code,
+                         EntryForm form, Model model) {
 
-        Employee employee = new Employee();
+        Entry employee = new Entry();
         int mask = 1;
 
         if (modify) form.setId(code);
 
-        if (form.getId() == null) mask |= (1 << 1);
+        if (form.getId() == 0) mask |= (1 << 1);
         if (form.getName().isEmpty()) mask |= (1 << 2);
         if (form.getPhone().isEmpty()) mask |= (1 << 3);
         if (form.getAddress1() * form.getAddress2() == 0) mask |= (1 << 4);
@@ -69,7 +71,7 @@ public class EmployeeController {
         employee.setId(form.getId());
         employee.setName(form.getName());
         employee.setPhone(form.getPhone());
-        employee.setAddress(Table.codeToAddress(form.getAddress1(), form.getAddress2()));
+        employee.setAddress(Util.codeToAddress(form.getAddress1(), form.getAddress2()));
         employee.setCode(form.getAddress1() * 100 + form.getAddress2());
 
         model.addAttribute("result", employee);
@@ -82,17 +84,16 @@ public class EmployeeController {
             }
         }
 
-        if (modify) employeeService.deleteOne(code);
-
-        employeeService.join(employee);
+        if (modify) employeeService.update(employee);
+        else employeeService.join(employee);
 
         return "redirect:/employee";
     }
 
     @GetMapping("/employee/modify/{no}")
-    public String modifyGet(@PathVariable("no") Long no, Model model) {
+    public String modifyGet(@PathVariable("no") int no, Model model) {
 
-        Optional<Employee> employee = employeeService.findById(no);
+        Optional<Entry> employee = employeeService.findById(no);
         if (employee.isEmpty()) return "error";
 
         model.addAttribute("code", no);
@@ -102,9 +103,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/employee/delete/{no}")
-    public String delete(@PathVariable("no") Long no) {
+    public String delete(@PathVariable("no") int no) {
 
-        Optional<Employee> employee = employeeService.findById(no);
+        Optional<Entry> employee = employeeService.findById(no);
         if (employee.isEmpty()) return "error";
 
         employeeService.deleteOne(no);

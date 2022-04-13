@@ -1,5 +1,6 @@
 package org.grad.project.visitor;
 
+import org.grad.project.entry.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ public class VisitorService {
         this.visitorRepository = visitorRepository;
     }
 
-    public void join(Visitor visitor) {
+    public void join(Entry visitor) {
         visitorRepository.save(visitor);
     }
 
@@ -24,30 +25,26 @@ public class VisitorService {
         return visitorRepository.findByPhone(phone).isPresent();
     }
 
-    public List<Visitor> findVisitors() {
+    public List<Entry> findVisitors() {
         return visitorRepository.findAll();
     }
 
-    public Optional<Visitor> findOne(Long memberId) {
+    public Optional<Entry> findOne(int memberId) {
         return visitorRepository.findById(memberId);
     }
 
-    public List<Visitor> search(String domain, String value) {
+    public List<Entry> search(String domain, String value) {
         if (domain.equals("name")) return visitorRepository.searchByName(value);
         if (domain.equals("phone")) return visitorRepository.searchByPhone(value);
         if (domain.equals("address")) return visitorRepository.searchByAddress(value);
         return null;
     }
 
-    public boolean deleteVisitors() {
-        return visitorRepository.deleteAll();
-    }
-
-    public boolean deleteOne(Long visitorId) {
+    public boolean deleteOne(int visitorId) {
         return visitorRepository.deleteById(visitorId);
     }
 
-    public boolean update(Visitor visitor) {
+    public boolean update(Entry visitor) {
         return visitorRepository.updateById(visitor.getId(), visitor.getName(), visitor.getPhone(), visitor.getAddress());
     }
 }
