@@ -7,6 +7,10 @@ import org.grad.project.visitor.VisitorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,6 +50,21 @@ public class LogService {
             } default: { }
         }
 
+        return ret;
+    }
+
+    public List<Log> read() throws Exception {
+
+        BufferedReader br = new BufferedReader(new FileReader("log.txt"));
+        List<Log> ret = new LinkedList<>();
+
+        while (true) {
+            String line = br.readLine();
+            if (line == null) break;
+            ret.add(new Log(line));
+        }
+
+        br.close();
         return ret;
     }
 }

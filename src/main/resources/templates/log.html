@@ -22,22 +22,24 @@
         </div>
     </div>
 </nav>
-<h1 style="text-align: center; margin-bottom: 10px;">출입자 기록</h1>
-<h2 style="text-align: center; margin-bottom: 10px;" th:value="${date}"></h2>
+<h1 style="text-align: center; margin-bottom: 20px;">출입자 기록</h1>
+<h3 style="text-align: center; margin-bottom: 20px;" th:text="'오늘은 ' + ${date} + '입니다.'"></h3>
 <div class="container">
     <div>
         <table>
             <thead>
             <tr id="title">
+                <th>순서</th>
                 <th>ID</th>
-                <th>이름</th>
+                <th>체온</th>
                 <th>입장 시간</th>
             </tr>
             </thead>
             <tbody>
             <tr id="entity" th:each="entry : ${result}">
+                <td th:text="${entry.count}"></td>
                 <td th:text="${entry.id}"></td>
-                <td th:text="${entry.name}"></td>
+                <td th:text="${entry.temp}"></td>
                 <td th:text="${entry.time}"></td>
             </tr>
             </tbody>

@@ -1,27 +1,9 @@
 package org.grad.project.system;
 
-import org.grad.project.entry.Entry;
-
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Util {
-
-    private static final ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-
-    private static PrintWriter writer;
-
-    static {
-        try {
-            writer = new PrintWriter("log.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static String codeToAddress(int code) {
         code -= 1000;
@@ -29,6 +11,7 @@ public class Util {
     }
 
     public static String codeToAddress(int code1, int code2) {
+        if (code1 * code2 == 0) return null;
         return table[0][code1 - 1] + " " + table[code1][code2 - 1];
     }
 

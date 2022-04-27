@@ -2,30 +2,29 @@ package org.grad.project.log;
 
 public class Log {
 
-    private int ID;
-    private String name, time;
+    private final String count, id, temp, time;
 
-    public int getID() {
-        return ID;
+    public Log(String line) {
+        String[] info = line.split(", ");
+        this.count = info[3];
+        this.id = info[1];
+        this.temp = info[2];
+        this.time = info[0];
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public String getCount() {
+        return count;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getTemp() {
+        return temp;
     }
 
     public String getTime() {
         return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 }

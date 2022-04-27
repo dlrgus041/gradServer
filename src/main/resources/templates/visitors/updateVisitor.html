@@ -33,7 +33,7 @@
             </tr>
             <tr>
                 <td>전화번호</td>
-                <td><input autocomplete="off" type="text" name="phone" th:value="${visitor.phone}"/></td>
+                <td><input autocomplete="off" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="phone" th:value="${visitor.phone}"/></td>
             </tr>
             <tr>
                 <td>주소</td>

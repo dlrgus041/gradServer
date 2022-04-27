@@ -29,7 +29,7 @@
         <table class="profile">
             <tr>
                 <td>사원번호</td>
-                <td><input autocomplete="off" type="text" name="id" th:value="${employee.id}" th:disabled="${modify}"/></td>
+                <td><input autocomplete="off" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="id" th:value="${employee.id > 0 ? employee.id : null}" th:disabled="${modify}"/></td>
             </tr>
             <tr>
                 <td>이름</td>
@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <td>전화번호</td>
-                <td><input autocomplete="off" type="text" name="phone" th:value="${employee.phone}"/></td>
+                <td><input autocomplete="off" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="phone" th:value="${employee.phone}"/></td>
             </tr>
             <tr>
                 <td>주소</td>
