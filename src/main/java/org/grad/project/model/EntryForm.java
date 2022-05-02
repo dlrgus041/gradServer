@@ -1,4 +1,4 @@
-package org.grad.project.entry;
+package org.grad.project.model;
 
 public class EntryForm {
 

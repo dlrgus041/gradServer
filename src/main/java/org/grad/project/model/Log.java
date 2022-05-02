@@ -1,19 +1,17 @@
-package org.grad.project.log;
+package org.grad.project.model;
 
 public class Log {
 
-    private final String count, id, temp, time;
+    private String id, temp, time, register = "O";
+
+    public Log() { }
 
     public Log(String line) {
-        String[] info = line.split(", ");
-        this.count = info[3];
+        String[] info = line.split(",\t");
         this.id = info[1];
         this.temp = info[2];
         this.time = info[0];
-    }
-
-    public String getCount() {
-        return count;
+        this.register = info[3];
     }
 
     public String getId() {
@@ -26,5 +24,9 @@ public class Log {
 
     public String getTime() {
         return time;
+    }
+
+    public String getRegister() {
+        return register;
     }
 }

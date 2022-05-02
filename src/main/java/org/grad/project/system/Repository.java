@@ -1,6 +1,6 @@
 package org.grad.project.system;
 
-import org.grad.project.entry.Entry;
+import org.grad.project.model.Entry;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.util.List;
@@ -28,13 +28,13 @@ public interface Repository {
 
     default RowMapper<Entry> rowMapper() {
         return (rs, rowNum) -> {
-            Entry visitor = new Entry();
-            visitor.setId(rs.getInt("id"));
-            visitor.setName(rs.getString("name"));
-            visitor.setPhone(rs.getString("phone"));
-            visitor.setAddress(rs.getString("address"));
-            visitor.setCode(Util.addressToCode(visitor.getAddress()));
-            return visitor;
+            Entry entry = new Entry();
+            entry.setId(rs.getInt("id"));
+            entry.setName(rs.getString("name"));
+            entry.setPhone(rs.getString("phone"));
+            entry.setAddress(rs.getString("address"));
+            entry.setCode(Table.addressToCode(entry.getAddress()));
+            return entry;
         };
     }
 }

@@ -1,8 +1,8 @@
 package org.grad.project.visitor;
 
-import org.grad.project.entry.Entry;
-import org.grad.project.entry.EntryForm;
-import org.grad.project.system.Util;
+import org.grad.project.model.Entry;
+import org.grad.project.model.EntryForm;
+import org.grad.project.system.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +48,7 @@ public class VisitorController {
     public String createForm(Model model) {
         model.addAttribute("code", 0);
         model.addAttribute("modify", false);
-        model.addAttribute("result", new Entry());
+        model.addAttribute("visitor", new Entry());
         return "visitors/updateVisitor";
     }
 
@@ -66,10 +66,10 @@ public class VisitorController {
         visitor.setId(form.getId());
         visitor.setName(form.getName());
         visitor.setPhone(form.getPhone());
-        visitor.setAddress(Util.codeToAddress(form.getAddress1(), form.getAddress2()));
+        visitor.setAddress(Table.codeToAddress(form.getAddress1(), form.getAddress2()));
         visitor.setCode(form.getAddress1() * 100 + form.getAddress2());
 
-        model.addAttribute("result", visitor);
+        model.addAttribute("visitor", visitor);
         model.addAttribute("modify", modify);
 
         for (int i = 1; i <= 6; i++) {
@@ -93,7 +93,7 @@ public class VisitorController {
 
         model.addAttribute("code", no);
         model.addAttribute("modify", true);
-        model.addAttribute("result", visitor.get());
+        model.addAttribute("visitor", visitor.get());
         return "visitors/updateVisitor";
     }
 

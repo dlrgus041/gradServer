@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>출입자 기록 직접 추가</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="/css/inputForm.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Up-Temp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link disabled" aria-current="page">출입자 기록</a></li>
+                <li class="nav-item"><a class="nav-link active" onclick="switchPage(1)">직원 관리</a></li>
+                <li class="nav-item"><a class="nav-link active" onclick="switchPage(-1)">방문자 관리</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<h1 style="margin: 20px; text-align: center;">출입자 기록 직접 추가</h1>
+<div class="container" style="margin-left: auto; margin-right: auto;">
+    <form action="/log/create" method="post">
+        <table class="profile">
+            <tr>
+                <td>ID</td>
+                <td><input autocomplete="off" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="id" th:value="${log.id}" th:disabled="${modify}"/></td>
+            </tr>
+            <tr>
+                <td>체온</td>
+                <td><input autocomplete="off" type="text" onKeyup="this.value=this.value.replace(/[^0-9.]/g,'');" name="temp" th:value="${log.temp}"/></td>
+            </tr>
+            <tr>
+                <td>입장 시간</td>
+                <td><input autocomplete="off" type="time" name="time" th:value="${log.time}"/></td>
+            </tr>
+            <tr>
+                <td>DB 등록 여부</td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: -webkit-fill-available;">
+                        <input type="radio" class="btn-check" name="register" id="btn1" value="O" autocomplete="off" th:checked="${log.getRegister() == 'O'}">
+                        <label class="btn btn-outline-primary" for="btn1">O</label>
+
+                        <input type="radio" class="btn-check" name="register" id="btn2" value="X" autocomplete="off" th:checked="${log.getRegister() == 'X'}">
+                        <label class="btn btn-outline-primary" for="btn2">X</label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div id="btn">
+            <button class="btn btn-success btn-lg" type="submit">추가</button>
+            <a class="btn btn-secondary btn-lg" href="/log" role="button">취소</a>
+        </div>
+    </form>
+</div>
+<th:block th:switch="${code}">
+    <div th:case="1" class="alert alert-warning" role="alert">ID를 입력해주세요.</div>
+    <div th:case="2" class="alert alert-warning" role="alert">체온을 입력해주세요.</div>
+    <div th:case="3" class="alert alert-warning" role="alert">입장 시간을 입력해주세요.</div>
+    <div th:case="6" class="alert alert-warning" role="alert">해당 ID로 등록된 데이터가 존재하지 않습니다.</div>
+</th:block>
+<script type="text/javascript" src="/js/util.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+</body>
+</html>

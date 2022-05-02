@@ -29,26 +29,28 @@
         <table>
             <thead>
             <tr id="title">
-                <th>순서</th>
                 <th>ID</th>
                 <th>체온</th>
                 <th>입장 시간</th>
+                <th>DB 등록 여부</th>
             </tr>
             </thead>
             <tbody>
             <tr id="entity" th:each="entry : ${result}">
-                <td th:text="${entry.count}"></td>
                 <td th:text="${entry.id}"></td>
                 <td th:text="${entry.temp}"></td>
                 <td th:text="${entry.time}"></td>
+                <td th:text="${entry.register}"></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
 <div id="btn">
+    <a class="btn btn-primary btn-lg" href="/log/create" role="button">추가</a>
     <a class="btn btn-secondary btn-lg" href="/" role="button">뒤로 가기</a>
 </div>
+<h3 style="text-align: center; margin-top: 30px;">자세한 개인 정보는 직원/방문자 관리 페이지를 확인해주세요.</h3>
 <script type="text/javascript" src="/js/util.js"></script>
 <script type="text/javascript" src="/js/bootstrap.js"></script>
 </body>

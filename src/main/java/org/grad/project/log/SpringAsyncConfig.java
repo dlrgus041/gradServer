@@ -1,4 +1,4 @@
-package org.grad.project.system;
+package org.grad.project.log;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

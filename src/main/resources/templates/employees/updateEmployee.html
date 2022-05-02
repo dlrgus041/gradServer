@@ -16,20 +16,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-option"><a class="nav-link active" onclick="switchPage(0)">출입자 목록</a></li>
-                <li class="nav-option"><a class="nav-link disabled" aria-current="page">직원 관리</a></li>
-                <li class="nav-option"><a class="nav-link active" onclick="switchPage(-1)">방문자 관리</a></li>
+                <li class="nav-item"><a class="nav-link active" onclick="switchPage(0)">출입자 목록</a></li>
+                <li class="nav-item"><a class="nav-link disabled" aria-current="page">직원 관리</a></li>
+                <li class="nav-item"><a class="nav-link active" onclick="switchPage(-1)">방문자 관리</a></li>
             </ul>
         </div>
     </div>
 </nav>
 <h1 style="margin: 20px; text-align: center;">직원 정보 추가 및 수정</h1>
 <div class="container" style="margin-left: auto; margin-right: auto;">
-    <form th:each="employee: ${result}" th:action="'/employee/update/' + ${modify} + '/' + ${code}" method="post">
+    <form th:action="'/employee/update/' + ${modify} + '/' + ${employee.id}" method="post">
         <table class="profile">
             <tr>
-                <td>사원번호</td>
-                <td><input autocomplete="off" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="id" th:value="${employee.id > 0 ? employee.id : null}" th:disabled="${modify}"/></td>
+                <td>ID</td>
+                <td><input autocomplete="off" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="id" th:value="${modify ? employee.id : null}" th:disabled="${modify}"/></td>
             </tr>
             <tr>
                 <td>이름</td>
@@ -42,7 +42,7 @@
             <tr>
                 <td>주소</td>
                 <td>
-                    <select name="address1" onchange="selectAddress1(this.value)">
+                    <select name="address1" onchange="selectAddress1(this.value)" style="width: -webkit-fill-available;">
                         <option value="0" th:selected="${employee.code / 100 == 0}">'도/시' 선택</option>
                         <option value="1" th:selected="${employee.code / 100 == 1}">서울특별시</option>
                         <option value="2" th:selected="${employee.code / 100 == 2}">광주광역시</option>
@@ -67,7 +67,7 @@
             <tr>
                 <td></td>
                 <td id="address2">
-                    <th:block th:switch="${employee.code / 100}">
+                    <th:block th:switch="${employee.code / 100}" style="width: -webkit-fill-available;">
                         <select th:case="0" name="address2" disabled>
                             <option value="0">시/군/구</option>
                         </select>

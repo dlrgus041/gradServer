@@ -1,6 +1,6 @@
 package org.grad.project.employee;
 
-import org.grad.project.entry.Entry;
+import org.grad.project.model.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

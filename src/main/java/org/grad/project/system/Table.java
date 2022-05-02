@@ -3,7 +3,7 @@ package org.grad.project.system;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Util {
+public class Table {
 
     public static String codeToAddress(int code) {
         code -= 1000;

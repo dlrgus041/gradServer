@@ -64,6 +64,7 @@ function selectAddress1(code1) {
     address2.removeChild(address2.children[0]);
     let el = document.createElement("select");
     el.name = "address2";
+    el.style = "width: -webkit-fill-available;";
 
     for (let x in table[code1]) {
         let opt = document.createElement("option");

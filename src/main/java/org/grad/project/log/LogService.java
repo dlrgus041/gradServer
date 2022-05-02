@@ -1,18 +1,17 @@
 package org.grad.project.log;
 
 import org.grad.project.employee.EmployeeRepository;
-import org.grad.project.entry.Entry;
-import org.grad.project.system.Util;
+import org.grad.project.model.Entry;
+import org.grad.project.model.Log;
+import org.grad.project.system.Repository;
+import org.grad.project.system.Table;
 import org.grad.project.visitor.VisitorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class LogService {
@@ -26,31 +25,55 @@ public class LogService {
         this.visitorRepository = visitorRepository;
     }
 
-    public boolean check(Map<String, Object> info) {
+    public void join(Log log) {
+        IO.getInstance().write(log);
+    }
+
+    public boolean checkInfo(Map<String, String> info) {
 
         boolean ret = false;
 
-        int id = (int) info.get("ID");
-        String phone = info.get("phone").toString();
-        int address = (int) info.get("address");
+        int id = Integer.parseInt(info.get("ID"));
+        String phone = info.get("phone");
+        int address = Integer.parseInt(info.get("address"));
 
-        switch (id / 100000) {
+        switch (first(id)) {
             case 1: {
                 Optional<Entry> optional = employeeRepository.findById(id);
                 if (optional.isPresent()) {
                     Entry employee = optional.get();
-                    ret = employee.compare(phone, Util.codeToAddress(address));
+                    ret = employee.compare(phone, Table.codeToAddress(address));
                 }
+                break;
             } case 2: {
                 Optional<Entry> optional = visitorRepository.findById(id);
                 if (optional.isPresent()) {
                     Entry visitor = optional.get();
-                    ret = visitor.compare(phone, Util.codeToAddress(address));
+                    ret = visitor.compare(phone, Table.codeToAddress(address));
                 }
+                break;
             } default: { }
         }
 
         return ret;
+    }
+
+    public boolean checkID(int id) {
+
+        Repository repo;
+
+        switch (first(id)) {
+            case 1: {
+                repo = employeeRepository;
+                break;
+            } case 2: {
+                repo = visitorRepository;
+                break;
+            } default: return false;
+        }
+
+        return repo.findById(id).isPresent();
+
     }
 
     public List<Log> read() throws Exception {
@@ -66,5 +89,9 @@ public class LogService {
 
         br.close();
         return ret;
+    }
+
+    private int first(int id) {
+        return id / 100000;
     }
 }

@@ -25,7 +25,7 @@
 </nav>
 <h1 style="margin: 20px; text-align: center;">방문자 정보 추가 및 수정</h1>
 <div class="container" style="margin-left: auto; margin-right: auto;">
-    <form th:each="visitor: ${result}" th:action="'/visitor/update/' + ${modify} + '/' + ${code}" method="post">
+    <form th:action="'/visitor/update/' + ${modify} + '/' + ${code}" method="post">
         <table class="profile">
             <tr>
                 <td>이름</td>
@@ -38,7 +38,7 @@
             <tr>
                 <td>주소</td>
                 <td>
-                    <select name="address1" onchange="selectAddress1(this.value)">
+                    <select name="address1" onchange="selectAddress1(this.value)" style="width: -webkit-fill-available;">
                         <option value="0" th:selected="${visitor.code / 100 == 0}">'도/시' 선택</option>
                         <option value="1" th:selected="${visitor.code / 100 == 1}">서울특별시</option>
                         <option value="2" th:selected="${visitor.code / 100 == 2}">광주광역시</option>
@@ -63,7 +63,7 @@
             <tr>
                 <td></td>
                 <td id="address2">
-                    <th:block th:switch="${visitor.code / 100}">
+                    <th:block th:switch="${visitor.code / 100}" style="width: -webkit-fill-available;">
                         <select th:case="0" name="address2" disabled>
                             <option value="0">시/군/구</option>
                         </select>
