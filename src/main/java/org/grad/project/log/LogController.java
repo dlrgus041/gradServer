@@ -1,6 +1,7 @@
 package org.grad.project.log;
 
 import org.grad.project.model.Log;
+import org.grad.project.model.LogForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,11 +34,11 @@ public class LogController {
 
         print(info, time);
 
-        int result = logService.checkInfo(info);
-        IO.getInstance().write(info, time, result);
+        logService.join(new Log(info, time, logService.checkID(toInt(info.get("ID"))), logService.checkTemp(toFloat(info.get("temp")))));
 
         Map<String, String> ret = new HashMap<>();
-        ret.put("result", String.valueOf(result));
+        ret.put("exist", toString(logService.checkID(toInt(info.get("ID")))));
+        ret.put("within", toString(logService.checkTemp(toFloat(info.get("temp")))));
 
         return ret;
     }
@@ -54,12 +55,12 @@ public class LogController {
     @GetMapping("/log/create")
     public String createForm(Model model) {
         model.addAttribute("code", 0);
-        model.addAttribute("log", new Log());
+        model.addAttribute("log", new LogForm());
         return "log/createLog";
     }
 
     @PostMapping("/log/create")
-    public String create(Log form, Model model) {
+    public String create(LogForm form, Model model) {
 
         int mask = 1;
 
@@ -76,7 +77,7 @@ public class LogController {
             }
         }
 
-        logService.join(form);
+        logService.join(logService.makeLog(form));
 
         return "redirect:/log";
     }
@@ -94,5 +95,17 @@ public class LogController {
         System.out.println("주소: " + info.get("address"));
         System.out.println("체온: " + info.get("temp"));
         System.out.println("------------------------------");
+    }
+
+    private String toString(boolean flag) {
+        return String.valueOf(flag);
+    }
+
+    private int toInt(String str) {
+        return Integer.parseInt(str);
+    }
+
+    private float toFloat(String str) {
+        return Float.parseFloat(str);
     }
 }

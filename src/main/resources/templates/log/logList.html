@@ -32,7 +32,8 @@
                 <th>ID</th>
                 <th>체온</th>
                 <th>입장 시간</th>
-                <th>비고</th>
+                <th>DB 존재 여부</th>
+                <th>정상 체온 여부</th>
             </tr>
             </thead>
             <tbody>
@@ -40,12 +41,8 @@
                 <td th:text="${log.id}"></td>
                 <td th:text="${log.temp}"></td>
                 <td th:text="${log.time}"></td>
-                <th:block th:switch="${log.code}">
-                    <td th:case="0">입장 허가</td>
-                    <td th:case="1">해당 데이터가 존재하지 않음</td>
-                    <td th:case="2">해당 정보가 일치하지 않음</td>
-                    <td th:case="3">비정상 체온</td>
-                </th:block>
+                <td th:text="${log.exist}"></td>
+                <td th:text="${log.within}"></td>
             </tr>
             </tbody>
         </table>
