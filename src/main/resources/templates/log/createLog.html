@@ -29,27 +29,15 @@
         <table class="profile">
             <tr>
                 <td>ID</td>
-                <td><input autocomplete="off" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="id" th:value="${log.id}" th:disabled="${modify}"/></td>
+                <td><input autocomplete="off" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="id" th:value="${log.id == 0 ? null : log.id}" maxlength="6"/></td>
             </tr>
             <tr>
                 <td>체온</td>
-                <td><input autocomplete="off" type="text" onKeyup="this.value=this.value.replace(/[^0-9.]/g,'');" name="temp" th:value="${log.temp}"/></td>
+                <td><input autocomplete="off" type="text" onKeyup="this.value=this.value.replace(/[^0-9.]/g,'');" name="temp" th:value="${log.temp == 0 ? null : log.temp}"/></td>
             </tr>
             <tr>
                 <td>입장 시간</td>
-                <td><input autocomplete="off" type="time" name="time" th:value="${log.time}"/></td>
-            </tr>
-            <tr>
-                <td>DB 등록 여부</td>
-                <td>
-                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: -webkit-fill-available;">
-                        <input type="radio" class="btn-check" name="register" id="btn1" value="O" autocomplete="off" th:checked="${log.getRegister() == 'O'}">
-                        <label class="btn btn-outline-primary" for="btn1">O</label>
-
-                        <input type="radio" class="btn-check" name="register" id="btn2" value="X" autocomplete="off" th:checked="${log.getRegister() == 'X'}">
-                        <label class="btn btn-outline-primary" for="btn2">X</label>
-                    </div>
-                </td>
+                <td><input autocomplete="off" type="time" name="time" th:value="${log.time}" style="width: -webkit-fill-available;"/></td>
             </tr>
         </table>
         <div id="btn">
@@ -62,7 +50,6 @@
     <div th:case="1" class="alert alert-warning" role="alert">ID를 입력해주세요.</div>
     <div th:case="2" class="alert alert-warning" role="alert">체온을 입력해주세요.</div>
     <div th:case="3" class="alert alert-warning" role="alert">입장 시간을 입력해주세요.</div>
-    <div th:case="6" class="alert alert-warning" role="alert">해당 ID로 등록된 데이터가 존재하지 않습니다.</div>
 </th:block>
 <script type="text/javascript" src="/js/util.js"></script>
 <script type="text/javascript" src="/js/bootstrap.js"></script>

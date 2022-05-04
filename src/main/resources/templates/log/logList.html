@@ -32,15 +32,20 @@
                 <th>ID</th>
                 <th>체온</th>
                 <th>입장 시간</th>
-                <th>DB 등록 여부</th>
+                <th>비고</th>
             </tr>
             </thead>
             <tbody>
-            <tr id="entity" th:each="entry : ${result}">
-                <td th:text="${entry.id}"></td>
-                <td th:text="${entry.temp}"></td>
-                <td th:text="${entry.time}"></td>
-                <td th:text="${entry.register}"></td>
+            <tr id="entity" th:each="log : ${result}">
+                <td th:text="${log.id}"></td>
+                <td th:text="${log.temp}"></td>
+                <td th:text="${log.time}"></td>
+                <th:block th:switch="${log.code}">
+                    <td th:case="0">입장 허가</td>
+                    <td th:case="1">해당 데이터가 존재하지 않음</td>
+                    <td th:case="2">해당 정보가 일치하지 않음</td>
+                    <td th:case="3">비정상 체온</td>
+                </th:block>
             </tr>
             </tbody>
         </table>
@@ -50,7 +55,7 @@
     <a class="btn btn-primary btn-lg" href="/log/create" role="button">추가</a>
     <a class="btn btn-secondary btn-lg" href="/" role="button">뒤로 가기</a>
 </div>
-<h3 style="text-align: center; margin-top: 30px;">자세한 개인 정보는 직원/방문자 관리 페이지를 확인해주세요.</h3>
+<h5 style="text-align: center; margin-top: 30px;">자세한 개인 정보는 직원/방문자 관리 페이지를 확인해주세요.</h5>
 <script type="text/javascript" src="/js/util.js"></script>
 <script type="text/javascript" src="/js/bootstrap.js"></script>
 </body>

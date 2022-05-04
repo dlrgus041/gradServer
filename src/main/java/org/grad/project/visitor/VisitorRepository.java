@@ -30,7 +30,7 @@ public class VisitorRepository implements org.grad.project.system.Repository {
         jdbcInsert.withTableName("grad.visitor");
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("id", encrypt());
+        parameters.put("id", encrypt(2));
         parameters.put("name", visitor.getName());
         parameters.put("phone", visitor.getPhone());
         parameters.put("address", visitor.getAddress());
@@ -81,25 +81,5 @@ public class VisitorRepository implements org.grad.project.system.Repository {
         if (findById(id).isEmpty()) return false;
         jdbcTemplate.update("update grad.visitor set name = ?, phone = ?, address = ? where id = ?", name, phone, address, id);
         return true;
-    }
-
-    private int encrypt() {
-
-        int[] code = new int[7];
-        int sum = code[1] = 2;
-
-        for (int i = 2; i < 6; i++) {
-            code[i] = (int)(Math.random() * 10);
-            sum += i * code[i];
-        }
-
-        code[6] = sum % 7;
-
-        int ret = 0;
-        for (int i = 6; i > 0; i--) {
-            for (int j = i; j < 6; j++) code[i] *= 10;
-            ret += code[i];
-        }
-        return ret;
     }
 }

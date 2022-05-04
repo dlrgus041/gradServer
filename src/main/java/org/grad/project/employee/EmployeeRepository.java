@@ -30,7 +30,7 @@ public class EmployeeRepository implements org.grad.project.system.Repository {
         jdbcInsert.withTableName("grad.employee");
         Map<String, Object> parameters = new HashMap<>();
 
-        parameters.put("id", employee.getId());
+        parameters.put("id", encrypt(1));
         parameters.put("name", employee.getName());
         parameters.put("phone", employee.getPhone());
         parameters.put("address", employee.getAddress());

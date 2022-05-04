@@ -25,11 +25,11 @@
 </nav>
 <h1 style="margin: 20px; text-align: center;">직원 정보 추가 및 수정</h1>
 <div class="container" style="margin-left: auto; margin-right: auto;">
-    <form th:action="'/employee/update/' + ${modify} + '/' + ${employee.id}" method="post">
+    <form th:action="'/employee/update/' + ${modify}" method="post">
         <table class="profile">
             <tr>
                 <td>ID</td>
-                <td><input autocomplete="off" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="id" th:value="${modify ? employee.id : null}" th:disabled="${modify}"/></td>
+                <td><input autocomplete="off" type="text" name="id" th:value="${modify ? employee.id : null}" disabled/></td>
             </tr>
             <tr>
                 <td>이름</td>
@@ -379,11 +379,9 @@
     </form>
 </div>
 <th:block th:switch="${code}">
-    <div th:case="1" class="alert alert-warning" role="alert">사원번호를 입력해주세요.</div>
     <div th:case="2" class="alert alert-warning" role="alert">이름을 입력해주세요.</div>
     <div th:case="3" class="alert alert-warning" role="alert">전화번호를 입력해주세요.</div>
     <div th:case="4" class="alert alert-warning" role="alert">주소를 입력해주세요.</div>
-    <div th:case="5" class="alert alert-warning" role="alert">해당 사원번호로 등록된 데이터가 이미 존재합니다.</div>
     <div th:case="6" class="alert alert-warning" role="alert">해당 전화번호로 등록된 데이터가 이미 존재합니다.</div>
 </th:block>
 <script type="text/javascript" src="/js/util.js"></script>

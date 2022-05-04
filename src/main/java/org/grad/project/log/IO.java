@@ -12,7 +12,7 @@ public class IO {
 
     public IO() {
         try {
-            writer = new PrintWriter(new FileWriter("log.txt"), true);
+            writer = new PrintWriter(new FileWriter("log.txt", true), true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -25,11 +25,11 @@ public class IO {
     }
 
     @Async("threadPoolTaskExecutor")
-    public void write(Map<String, String> info, String time, Boolean register) {
-        writer.printf("%s,\t%s,\t%s,\t%b\n", time, info.get("ID"), info.get("temp"), register ? "O" : "X");
+    public void write(Map<String, String> info, String time, int result) {
+        writer.printf("%s,\t%s,\t%s,\t%d\n", time, info.get("ID"), info.get("temp"), result);
     }
 
     @Async("threadPoolTaskExecutor")
-    public void write(Log log) {writer.printf("%s,\t%s,\t%s,\tO\n", log.getTime(), log.getId(), log.getTemp());
+    public void write(Log log) {writer.printf("%s,\t%d,\t%.2f,\t%d\n", log.getTime(), log.getId(), log.getTemp(), log.getCode());
     }
 }

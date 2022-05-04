@@ -26,53 +26,59 @@ public class LogService {
     }
 
     public void join(Log log) {
+        log.setCode(checkLog(log));
         IO.getInstance().write(log);
     }
 
-    public boolean checkInfo(Map<String, String> info) {
+    public int checkInfo(Map<String, String> info) {
 
-        boolean ret = false;
+        int ret;
 
         int id = Integer.parseInt(info.get("ID"));
         String phone = info.get("phone");
         int address = Integer.parseInt(info.get("address"));
 
-        switch (first(id)) {
-            case 1: {
-                Optional<Entry> optional = employeeRepository.findById(id);
+        if (first(id) > 2) ret = Log.DATA_DOES_NOT_EXIST;
+        else {
+
+            if (decrypt(id)) {
+
+                Repository repo = first(id) == 1 ? employeeRepository : visitorRepository;
+                Optional<Entry> optional = repo.findById(id);
+
                 if (optional.isPresent()) {
-                    Entry employee = optional.get();
-                    ret = employee.compare(phone, Table.codeToAddress(address));
-                }
-                break;
-            } case 2: {
-                Optional<Entry> optional = visitorRepository.findById(id);
-                if (optional.isPresent()) {
-                    Entry visitor = optional.get();
-                    ret = visitor.compare(phone, Table.codeToAddress(address));
-                }
-                break;
-            } default: { }
+                    Entry entry = optional.get();
+                    ret = entry.compare(phone, Table.codeToAddress(address)) ? Log.PASS : Log.INFO_DOES_NOT_MATCH;
+                } else ret = Log.DATA_DOES_NOT_EXIST;
+
+            } else ret = Log.DATA_DOES_NOT_EXIST;
+        }
+
+        if (ret == Log.PASS) {
+            float temp = Float.parseFloat(info.get("temp"));
+            if (temp < 35 || temp > 38) ret = Log.TEMP_OUT_OF_RANGE;
         }
 
         return ret;
     }
 
-    public boolean checkID(int id) {
+    public int checkLog(Log log) {
 
         Repository repo;
 
-        switch (first(id)) {
+        switch (first(log.getId())) {
             case 1: {
                 repo = employeeRepository;
                 break;
             } case 2: {
                 repo = visitorRepository;
                 break;
-            } default: return false;
+            } default: return Log.DATA_DOES_NOT_EXIST;
         }
 
-        return repo.findById(id).isPresent();
+        if (repo.findById(log.getId()).isPresent()) return log.checkTemp() ? Log.PASS : Log.TEMP_OUT_OF_RANGE;
+
+        return Log.DATA_DOES_NOT_EXIST;
 
     }
 
@@ -93,5 +99,17 @@ public class LogService {
 
     private int first(int id) {
         return id / 100000;
+    }
+
+    private boolean decrypt(int id) {
+
+        int sum = 0;
+
+        for (int i = 1; i <= 6; i++) {
+            sum += i * (id % 10);
+            id /= 10;
+        }
+
+        return sum % 7 == 0;
     }
 }

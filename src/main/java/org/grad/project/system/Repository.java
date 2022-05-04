@@ -37,4 +37,24 @@ public interface Repository {
             return entry;
         };
     }
+
+    default int encrypt(int first) {
+
+        int[] code = new int[7];
+        int sum = code[1] = first;
+
+        for (int i = 2; i < 6; i++) {
+            code[i] = (int)(Math.random() * 10);
+            sum += i * code[i];
+        }
+
+        code[6] = sum % 7;
+
+        int ret = 0;
+        for (int i = 6; i > 0; i--) {
+            for (int j = i; j < 6; j++) code[i] *= 10;
+            ret += code[i];
+        }
+        return ret;
+    }
 }

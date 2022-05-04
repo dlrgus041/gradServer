@@ -52,23 +52,17 @@ public class EmployeeController {
         return "employees/updateEmployee";
     }
 
-    @PostMapping("/employee/update/{modify}/{code}")
-    public String create(@PathVariable("modify") boolean modify, @PathVariable("code") int code,
-                         EntryForm form, Model model) {
+    @PostMapping("/employee/update/{modify}")
+    public String create(@PathVariable("modify") boolean modify, EntryForm form, Model model) {
 
         Entry employee = new Entry();
         int mask = 1;
 
-        if (modify) form.setId(code);
-
-        if (form.getId() == 0) mask |= (1 << 1);
         if (form.getName().isEmpty()) mask |= (1 << 2);
         if (form.getPhone().isEmpty()) mask |= (1 << 3);
         if (form.getAddress1() * form.getAddress2() == 0) mask |= (1 << 4);
-        if (!modify && employeeService.isValidById(form.getId())) mask |= (1 << 5);
         if (!modify && employeeService.isValidByPhone(form.getPhone())) mask |= (1 << 6);
 
-        employee.setId(form.getId());
         employee.setName(form.getName());
         employee.setPhone(form.getPhone());
         employee.setAddress(Table.codeToAddress(form.getAddress1(), form.getAddress2()));

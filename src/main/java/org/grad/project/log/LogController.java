@@ -33,7 +33,7 @@ public class LogController {
 
         print(info, time);
 
-        boolean result = logService.checkInfo(info);
+        int result = logService.checkInfo(info);
         IO.getInstance().write(info, time, result);
 
         Map<String, String> ret = new HashMap<>();
@@ -49,10 +49,11 @@ public class LogController {
         return "log/logList";
     }
 
+// 삭제 예정 (테스트용) ------------------------------------------------------------------------------------------
+
     @GetMapping("/log/create")
     public String createForm(Model model) {
         model.addAttribute("code", 0);
-        model.addAttribute("modify", false);
         model.addAttribute("log", new Log());
         return "log/createLog";
     }
@@ -62,14 +63,13 @@ public class LogController {
 
         int mask = 1;
 
-        if (form.getId().isEmpty()) mask |= (1 << 1);
-        if (form.getTemp().isEmpty()) mask |= (1 << 2);
+        if (form.getId() == 0) mask |= (1 << 1);
+        if (form.getTemp() == 0) mask |= (1 << 2);
         if (form.getTime().isEmpty()) mask |= (1 << 3);
-        if (!logService.checkID(Integer.parseInt(form.getId()))) mask |= (1 << 6);
 
         model.addAttribute("log", form);
 
-        for (int i = 1; i <= 6; i++) {
+        for (int i = 1; i <= 3; i++) {
             if ((mask & (1 << i)) > 0) {
                 model.addAttribute("code", i);
                 return "log/createLog";
@@ -80,6 +80,8 @@ public class LogController {
 
         return "redirect:/log";
     }
+
+// 삭제 예정 (테스트용) ----------------------------------------------------------------------------------------
 
     private String format(LocalDateTime now, String format) {
         return now.format(DateTimeFormatter.ofPattern(format));
