@@ -4,25 +4,38 @@ import org.grad.project.model.Log;
 import org.springframework.scheduling.annotation.Async;
 
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 
-public class IO {
+public class Singleton {
 
     private PrintWriter writer;
+    private String token;
+    private final String key = "51e791da45820b34f137b8d9c87e733e";
 
-    public IO() {
+    public Singleton() {
         try {
             writer = new PrintWriter(new FileWriter("log.txt", true), true);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static final IO io = new IO();
+    private static final Singleton singleton = new Singleton();
 
-    public static IO getInstance() {
-        return io;
+    public static Singleton getInstance() {
+        return singleton;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Async("threadPoolTaskExecutor")

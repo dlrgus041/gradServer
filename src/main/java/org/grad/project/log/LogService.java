@@ -26,7 +26,7 @@ public class LogService {
     }
 
     public void join(Log log) {
-        IO.getInstance().write(log, checkID(log.getId()), checkTemp(log.getTemp()));
+        Singleton.getInstance().write(log, checkID(log.getId()), checkTemp(log.getTemp()));
     }
 
     public List<Log> read() throws Exception {

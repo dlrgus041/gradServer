@@ -44,8 +44,8 @@
                 <th>이름</th>
                 <th>전화번호</th>
                 <th>주소</th>
-                <th></th>
-                <th></th>
+<!--                <th></th>-->
+<!--                <th></th>-->
             </tr>
             </thead>
             <tbody>
@@ -54,15 +54,15 @@
                 <td th:text="${employee.name}"></td>
                 <td th:text="${employee.phone}"></td>
                 <td th:text="${employee.address}"></td>
-                <td><a class="btn btn-warning" th:href="'/employee/modify/' + ${employee.id}" role="button">수정</a></td>
-                <td><a class="btn btn-danger" th:onclick="|deleteElement(true, ${employee.id})|" role="button">삭제</a></td>
+<!--                <td><a class="btn btn-warning" th:href="'/employee/modify/' + ${employee.id}" role="button">수정</a></td>-->
+<!--                <td><a class="btn btn-danger" th:onclick="|deleteElement(true, ${employee.id})|" role="button">삭제</a></td>-->
             </tr>
             </tbody>
         </table>
     </div>
 </div>
 <div id="btn">
-    <a class="btn btn-primary btn-lg" href="/employee/update" role="button">추가</a>
+<!--    <a class="btn btn-primary btn-lg" href="/employee/update" role="button">추가</a>-->
     <a class="btn btn-secondary btn-lg" th:href="${main ? '/' : '/employee'}" role="button">뒤로 가기</a>
 </div>
 <script type="text/javascript" src="/js/util.js"></script>

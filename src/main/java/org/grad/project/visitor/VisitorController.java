@@ -6,10 +6,7 @@ import org.grad.project.system.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -44,7 +41,7 @@ public class VisitorController {
         return "visitors/visitorList";
     }
 
-    @GetMapping("/visitor/update")
+    @GetMapping("/visitor/update/false")
     public String createForm(Model model) {
         model.addAttribute("code", 0);
         model.addAttribute("modify", false);
@@ -84,6 +81,59 @@ public class VisitorController {
 
         return "redirect:/visitor";
     }
+
+//    @ResponseBody
+//    @GetMapping("/visitor/send/{id}")
+//    public String sendMessage(@PathVariable("id") int id) {
+//
+//        Optional<Entry> visitor = visitorService.findOne(id);
+//        if (visitor.isEmpty()) return "error";
+//
+//        return "<script src=\"https://developers.kakao.com/sdk/js/kakao.js\"></script>\n" +
+//               "<script type=\"text/javascript\">\n" +
+//               "    if (confirm('해당 방문자에게 카카오톡 메시지를 전송하시겠습니까?')) {\n" +
+//               "        Kakao.Auth.login({\n" +
+//               "            scope: 'TALK_MESSAGE',\n" +
+//               "            success: function (authObj) {\n" +
+//               "                Kakao.API.request({\n" +
+//               "                    url: '/v2/api/talk/memo/default/send',\n" +
+//               "                    data: {\n" +
+//               "                        template_object: {\n" +
+//               "                            object_type: 'text',\n" +
+//               "                            text:\n" +
+//               "                                '아래의 정보를 확인하시고, 앱을 설치해서 QR코드를 발급받으세요.\\n'\n" +
+//               "                                + 'ID :\\t' + id + '\\n'\n" +
+//               "                                + '이름 :\\t' + name + '\\n'\n" +
+//               "                                + '전화번호 :\\t' + phone + '\\n'\n" +
+//               "                                + '주소 :\\t' + address,\n" +
+//               "                            link: {\n" +
+//               "                                mobile_web_url: 'https://developers.kakao.com',\n" +
+//               "                                web_url: 'https://developers.kakao.com'\n" +
+//               "                            },\n" +
+//               "                            buttons: {\n" +
+//               "                                title: 'App 다운로드하기',\n" +
+//               "                                link: {\n" +
+//               "                                    mobile_web_url: 'https://drive.google.com/file/d/1DW7Vuex0eMUI2gpEApFVQPl3YV0YQhJQ/view?usp=sharing',\n" +
+//               "                                    web_url: 'https://drive.google.com/file/d/1DW7Vuex0eMUI2gpEApFVQPl3YV0YQhJQ/view?usp=sharing'\n" +
+//               "                                }\n" +
+//               "                            }\n" +
+//               "                        },\n" +
+//               "                    },\n" +
+//               "                    success: function (res) {\n" +
+//               "                        alert('메시지를 보냈습니다.\n방문자 목록 페이지로 돌아갑니다.')\n" +
+//               "                    },\n" +
+//               "                    fail: function (error) {\n" +
+//               "                        alert('login success, but failed to request user information: ' + JSON.stringify(error))\n" +
+//               "                    },\n" +
+//               "                })\n" +
+//               "            },\n" +
+//               "            fail: function (err) {\n" +
+//               "                alert('failed to login: ' + JSON.stringify(err))\n" +
+//               "            },\n" +
+//               "        })\n" +
+//               "    }\n" +
+//               "</script>";
+//    }
 
     @GetMapping("/visitor/modify/{no}")
     public String modifyForm(@PathVariable("no") int no, Model model) {
