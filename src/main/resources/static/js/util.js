@@ -75,3 +75,8 @@ function selectAddress1(code1) {
 
     address2.appendChild(el);
 }
+
+function login(status) {
+    if (status) alert('이미 로그인되었습니다.');
+    else location.href='https://kauth.kakao.com/oauth/authorize?client_id=51e791da45820b34f137b8d9c87e733e&redirect_uri=http://localhost:8080/login&response_type=code';
+}

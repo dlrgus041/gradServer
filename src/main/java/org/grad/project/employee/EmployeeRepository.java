@@ -27,7 +27,7 @@ public class EmployeeRepository implements org.grad.project.system.Repository {
     public void save(Entry employee) {
 
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName("grad.employee");
+        jdbcInsert.withTableName("employee");
         Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("id", encrypt(1));
@@ -40,46 +40,46 @@ public class EmployeeRepository implements org.grad.project.system.Repository {
 
     @Override
     public Optional<Entry> findById(int id) {
-        return jdbcTemplate.query("select * from grad.employee where id = ?", rowMapper(), id)
+        return jdbcTemplate.query("select * from employee where id = ?", rowMapper(), id)
                 .stream().findAny();
     }
 
     @Override
     public Optional<Entry> findByPhone(String phone) {
-        return jdbcTemplate.query("select * from grad.employee where phone = ?", rowMapper(), phone)
+        return jdbcTemplate.query("select * from employee where phone = ?", rowMapper(), phone)
                 .stream().findAny();
     }
 
     @Override
     public List<Entry> searchByName(String name) {
-        return jdbcTemplate.query("select * from grad.employee where name like ?", rowMapper(), "%" + name + "%");
+        return jdbcTemplate.query("select * from employee where name like ?", rowMapper(), "%" + name + "%");
     }
 
     @Override
     public List<Entry> searchByPhone(String phone) {
-        return jdbcTemplate.query("select * from grad.employee where phone like ?", rowMapper(), "%" + phone + "%");
+        return jdbcTemplate.query("select * from employee where phone like ?", rowMapper(), "%" + phone + "%");
     }
 
     @Override
     public List<Entry> searchByAddress(String address) {
-        return jdbcTemplate.query("select * from grad.employee where address like ?", rowMapper(), "%" + address + "%");
+        return jdbcTemplate.query("select * from employee where address like ?", rowMapper(), "%" + address + "%");
     }
 
     @Override
     public List<Entry> findAll() {
-        return jdbcTemplate.query("select * from grad.employee", rowMapper());
+        return jdbcTemplate.query("select * from employee", rowMapper());
     }
 
     @Override
     public boolean deleteById(int id) {
-        jdbcTemplate.update("delete from grad.employee where id = ?", id);
+        jdbcTemplate.update("delete from employee where id = ?", id);
         return findById(id).isPresent();
     }
 
     @Override
     public boolean updateById(int id, String name, String phone, String address) {
         if (findById(id).isEmpty()) return false;
-        jdbcTemplate.update("update grad.employee set name = ?, phone = ?, address = ? where id = ?", name, phone, address, id);
+        jdbcTemplate.update("update employee set name = ?, phone = ?, address = ? where id = ?", name, phone, address, id);
         return true;
     }
 }

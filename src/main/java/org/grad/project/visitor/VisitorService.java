@@ -1,10 +1,17 @@
 package org.grad.project.visitor;
 
+import org.grad.project.Util;
 import org.grad.project.model.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -17,7 +24,31 @@ public class VisitorService {
         this.visitorRepository = visitorRepository;
     }
 
-    public void join(Entry visitor) {
+    public void join(Entry visitor) throws Exception {
+
+        visitor.setId(visitorRepository.encrypt(2));
+
+        Map<String, String> link = new HashMap<>();
+        link.put("web_url", "https://drive.google.com/file/d/1DW7Vuex0eMUI2gpEApFVQPl3YV0YQhJQ/view?usp=sharing");
+        link.put("mobile_web_url", "https://drive.google.com/file/d/1DW7Vuex0eMUI2gpEApFVQPl3YV0YQhJQ/view?usp=sharing");
+
+        Map<String, Object> template_object = new HashMap<>();
+        template_object.put("object_type", "text");
+        template_object.put("text", makeText(visitor));
+        template_object.put("link", link);
+        template_object.put("button_title", "App 다운로드");
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("template_object", Util.objectToString(template_object));
+
+        HttpHeaders header = new HttpHeaders();
+        header.add("Host", "kapi.kakao.com");
+        header.add("Authorization", "Bearer " + Util.getToken());
+        header.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        String response = Util.request("https://kapi.kakao.com/v2/api/talk/memo/default/send", HttpMethod.POST, header, params);
+        System.out.println(response);
+
         visitorRepository.save(visitor);
     }
 
@@ -46,5 +77,13 @@ public class VisitorService {
 
     public boolean update(Entry visitor) {
         return visitorRepository.updateById(visitor.getId(), visitor.getName(), visitor.getPhone(), visitor.getAddress());
+    }
+
+    private String makeText(Entry visitor) {
+        return "App을 다운로드한 뒤 아래 정보를 입력해서 QR코드를 발급받으세요.\n" +
+                "ID :\t\t" + visitor.getId() + "\n" +
+                "이름 :\t\t" + visitor.getName() +"\n" +
+                "전화번호 :\t" + visitor.getPhone() + "\n" +
+                "주소 :\t\t" + visitor.getAddress();
     }
 }

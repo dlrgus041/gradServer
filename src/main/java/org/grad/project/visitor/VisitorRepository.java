@@ -27,10 +27,10 @@ public class VisitorRepository implements org.grad.project.system.Repository {
     public void save(Entry visitor) {
 
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName("grad.visitor");
+        jdbcInsert.withTableName("visitor");
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("id", encrypt(2));
+        parameters.put("id", visitor.getId());
         parameters.put("name", visitor.getName());
         parameters.put("phone", visitor.getPhone());
         parameters.put("address", visitor.getAddress());
@@ -40,46 +40,46 @@ public class VisitorRepository implements org.grad.project.system.Repository {
 
     @Override
     public Optional<Entry> findById(int id) {
-        return jdbcTemplate.query("select * from grad.visitor where id = ?", rowMapper(), id)
+        return jdbcTemplate.query("select * from visitor where id = ?", rowMapper(), id)
                 .stream().findAny();
     }
 
     @Override
     public Optional<Entry> findByPhone(String phone) {
-        return jdbcTemplate.query("select * from grad.visitor where phone = ?", rowMapper(), phone)
+        return jdbcTemplate.query("select * from visitor where phone = ?", rowMapper(), phone)
                 .stream().findAny();
     }
 
     @Override
     public List<Entry> searchByName(String name) {
-        return jdbcTemplate.query("select * from grad.visitor where name like ?", rowMapper(), "%" + name + "%");
+        return jdbcTemplate.query("select * from visitor where name like ?", rowMapper(), "%" + name + "%");
     }
 
     @Override
     public List<Entry> searchByPhone(String phone) {
-        return jdbcTemplate.query("select * from grad.visitor where phone like ?", rowMapper(), "%" + phone + "%");
+        return jdbcTemplate.query("select * from visitor where phone like ?", rowMapper(), "%" + phone + "%");
     }
 
     @Override
     public List<Entry> searchByAddress(String address) {
-        return jdbcTemplate.query("select * from grad.visitor where address like ?", rowMapper(), "%" + address + "%");
+        return jdbcTemplate.query("select * from visitor where address like ?", rowMapper(), "%" + address + "%");
     }
 
     @Override
     public List<Entry> findAll() {
-        return jdbcTemplate.query("select * from grad.visitor", rowMapper());
+        return jdbcTemplate.query("select * from visitor", rowMapper());
     }
 
     @Override
     public boolean deleteById(int id) {
-        jdbcTemplate.update("delete from grad.visitor where id = ?", id);
+        jdbcTemplate.update("delete from visitor where id = ?", id);
         return findById(id).isPresent();
     }
 
     @Override
     public boolean updateById(int id, String name, String phone, String address) {
         if (findById(id).isEmpty()) return false;
-        jdbcTemplate.update("update grad.visitor set name = ?, phone = ?, address = ? where id = ?", name, phone, address, id);
+        jdbcTemplate.update("update visitor set name = ?, phone = ?, address = ? where id = ?", name, phone, address, id);
         return true;
     }
 }

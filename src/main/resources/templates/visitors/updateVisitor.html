@@ -27,10 +27,12 @@
 <div class="container" style="margin-left: auto; margin-right: auto;">
     <form th:action="'/visitor/update/' + ${modify}" method="post">
         <table class="profile">
-            <tr>
-                <td>ID</td>
-                <td><input autocomplete="off" type="text" name="id" th:value="${modify ? visitor.id : null}" disabled/></td>
-            </tr>
+            <th:block th:if="${modify}">
+                <tr>
+                    <td>ID</td>
+                    <td><input autocomplete="off" type="text" name="id" th:value="${visitor.id}" disabled/></td>
+                </tr>
+            </th:block>
             <tr>
                 <td>이름</td>
                 <td><input autocomplete="off" type="text" name="name" th:value="${visitor.name}"/></td>
@@ -373,7 +375,7 @@
             </tr>
         </table>
         <div id="btn">
-            <button class="btn btn-success btn-lg" th:onclick="|register()|" type="button">저장</button>
+            <button class="btn btn-success btn-lg" type="submit">저장</button>
             <a class="btn btn-secondary btn-lg" href="/visitor" role="button">취소</a>
         </div>
     </form>
@@ -386,92 +388,5 @@
 </th:block>
 <script type="text/javascript" src="/js/util.js"></script>
 <script type="text/javascript" src="/js/bootstrap.js"></script>
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script type="text/javascript">
-
-    Kakao.init('8ec3e532dadd23a9508c8ae3265a64ad');
-    console.log(Kakao.isInitialized());
-
-    // function register() {
-    //     Kakao.Auth.login({
-    //         scope: "friends",
-    //         success: function (authObj) {
-    //             Kakao.API.request({
-    //                 url: '/v1/api/talk/friends',
-    //                 success: function(res) {
-    //                     Kakao.API.request({
-    //                         url: '/v1/api/talk/friends/message/default/send',
-    //                         data: {
-    //                             receiver_uuids: [res.elements[0].uuid],
-    //                             template_object: {
-    //                                 object_type: 'text',
-    //                                 text: '테스트 메시지입니다.',
-    //                                 link: {
-    //                                     mobile_web_url: 'https://developers.kakao.com',
-    //                                     web_url: 'https://developers.kakao.com',
-    //                                 },
-    //                             },
-    //                         },
-    //                         success: function (res) {
-    //                             alert('메시지 전송이 완료되었습니다. \n' + JSON.stringify(res))
-    //                         },
-    //                         fail: function (err) {
-    //                             alert('메시지 전송에 실패했습니다. \n' + JSON.stringify(err))
-    //                         },
-    //                     })
-    //                 },
-    //                 fail: function (error) {
-    //                     alert('login success, but failed to request user information: ' + JSON.stringify(error))
-    //                 },
-    //             })
-    //         },
-    //         fail: function (err) {
-    //             alert('failed to login: ' + JSON.stringify(err))
-    //         },
-    //     })
-    // }
-
-    function register() {
-        Kakao.Auth.login({
-            success: function (authObj) {
-                Kakao.API.request({
-                    url: "/v2/api/talk/memo/default/send",
-                    data: {
-                        template_object: {
-                            object_type: "text",
-                            text:
-                                "아래의 정보를 확인하시고, 앱을 설치해서 QR코드를 발급받으세요.\n",
-                                // + 'ID :\t' + visitor.id + '\n'
-                                // + '이름 :\t' + visitor.name + '\n'
-                                // + '전화번호 :\t' + visitor.phone + '\n'
-                                // + '주소 :\t' + visitor.address,
-                            link: {
-                                mobile_web_url: "https://developers.kakao.com",
-                                web_url: "https://developers.kakao.com"
-                            },
-                            buttons: [{
-                                title: "App 다운로드",
-                                link: {
-                                    mobile_web_url: "https://drive.google.com/file/d/1DW7Vuex0eMUI2gpEApFVQPl3YV0YQhJQ/view?usp=sharing",
-                                    web_url: "https://drive.google.com/file/d/1DW7Vuex0eMUI2gpEApFVQPl3YV0YQhJQ/view?usp=sharing"
-                                }
-                            }]
-                        },
-                    },
-                    success: function (res) {
-                        alert(JSON.stringify(res))
-                    },
-                    fail: function (error) {
-                        alert('login success, but failed to request user information: ' + JSON.stringify(error))
-                    },
-                })
-            },
-            fail: function (err) {
-                alert('failed to login: ' + JSON.stringify(err))
-            },
-        })
-    }
-
-</script>
 </body>
 </html>

@@ -31,7 +31,8 @@
             <tr id="title">
                 <th>ID</th>
                 <th>체온</th>
-                <th>입장 시간</th>
+                <th>입장 시도 시간</th>
+                <th>QR코드 유효성</th>
                 <th>DB 존재 여부</th>
                 <th>정상 체온 여부</th>
             </tr>
@@ -41,6 +42,7 @@
                 <td th:text="${log.id}"></td>
                 <td th:text="${log.temp}"></td>
                 <td th:text="${log.time}"></td>
+                <td th:text="${log.valid}"></td>
                 <td th:text="${log.exist}"></td>
                 <td th:text="${log.within}"></td>
             </tr>
@@ -49,7 +51,7 @@
     </div>
 </div>
 <div id="btn">
-    <a class="btn btn-primary btn-lg" href="/log/create" role="button">추가</a>
+<!--    <a class="btn btn-primary btn-lg" href="/log/create" role="button">추가</a>-->
     <a class="btn btn-secondary btn-lg" href="/" role="button">뒤로 가기</a>
 </div>
 <h5 style="text-align: center; margin-top: 30px;">자세한 개인 정보는 직원/방문자 관리 페이지를 확인해주세요.</h5>

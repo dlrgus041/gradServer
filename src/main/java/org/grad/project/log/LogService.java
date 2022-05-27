@@ -2,15 +2,11 @@ package org.grad.project.log;
 
 import org.grad.project.employee.EmployeeRepository;
 import org.grad.project.model.Log;
-import org.grad.project.model.LogForm;
 import org.grad.project.system.Repository;
 import org.grad.project.visitor.VisitorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -18,30 +14,21 @@ public class LogService {
 
     private final EmployeeRepository employeeRepository;
     private final VisitorRepository visitorRepository;
+    private final LogRepository logRepository;
 
     @Autowired
-    public LogService(EmployeeRepository employeeRepository, VisitorRepository visitorRepository) {
+    public LogService(EmployeeRepository employeeRepository, VisitorRepository visitorRepository, LogRepository logRepository) {
         this.employeeRepository = employeeRepository;
         this.visitorRepository = visitorRepository;
+        this.logRepository = logRepository;
     }
 
     public void join(Log log) {
-        Singleton.getInstance().write(log, checkID(log.getId()), checkTemp(log.getTemp()));
+        logRepository.save(log);
     }
 
     public List<Log> read() throws Exception {
-
-        BufferedReader br = new BufferedReader(new FileReader("log.txt"));
-        List<Log> ret = new LinkedList<>();
-
-        while (true) {
-            String line = br.readLine();
-            if (line == null) break;
-            ret.add(new Log(line));
-        }
-
-        br.close();
-        return ret;
+        return logRepository.findAll();
     }
 
     private int first(int id) {
@@ -58,7 +45,11 @@ public class LogService {
         return temp >= 35 && temp <= 38;
     }
 
-    public Log makeLog(LogForm form) {
-        return new Log(form, checkID(form.getId()), checkTemp(form.getTemp()));
+    public boolean checkInterval(long timeNow, long timeQR) {
+        return (timeNow - timeQR) / 1000 / 60 <= 10;
     }
+
+//    public Log makeLog(LogForm form) {
+//        return new Log(form, checkID(form.getId()), checkTemp(form.getTemp()));
+//    }
 }
