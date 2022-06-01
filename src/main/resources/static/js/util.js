@@ -76,7 +76,10 @@ function selectAddress1(code1) {
     address2.appendChild(el);
 }
 
-function login(status) {
-    if (status) alert('이미 로그인되었습니다.');
-    else location.href='https://kauth.kakao.com/oauth/authorize?client_id=51e791da45820b34f137b8d9c87e733e&redirect_uri=http://localhost:8080/login&response_type=code';
+function kakao(login, status) {
+    if (login) {
+        if (status) alert('이미 로그인되었습니다.');
+        else location.href='/refresh';
+    }
+    else location.href='https://kauth.kakao.com/oauth/authorize?client_id=55be62f097c7e69a2ff9b58382f72259&redirect_uri=http://uouitcparkjh1998.ddns.net:8080/login&response_type=code&scope=profile_nickname,profile_image,friends,talk_message';
 }

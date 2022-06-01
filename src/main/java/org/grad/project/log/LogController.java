@@ -19,7 +19,8 @@ import java.util.Map;
 public class LogController {
 
     private final LogService logService;
-    private final SimpleDateFormat sdf = new SimpleDateFormat("HH시 mm분 ss초");
+    private final SimpleDateFormat sdfTime = new SimpleDateFormat("HH시 mm분 ss초");
+    private final SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy년 MM월 dd일");
 
     @Autowired
     public LogController(LogService logService) {
@@ -34,29 +35,24 @@ public class LogController {
         long timeQR = Long.parseLong(info.get("time"));
 
         Log log = new Log();
-        log.setId(toInt(info.get("id")));
+        log.setId(toInt(info.get("ID")));
         log.setTemp(toFloat(info.get("temp")));
-        log.setTime(sdf.format(timeQR));
-
-        log.setValid(logService.checkInterval(timeNow, timeQR));
-        log.setExist(logService.checkID(log.getId()));
-        log.setWithin(logService.checkTemp(log.getTemp()));
-
+        log.setTime(sdfTime.format(timeNow));
         print(info, timeNow);
 
-        logService.join(log);
+        logService.join(log, timeQR, timeNow);
 
         Map<String, String> ret = new HashMap<>();
-        ret.put("valid", toString(log.getValid()));
-        ret.put("exist", toString(log.getExist()));
-        ret.put("within", toString(log.getWithin()));
+        ret.put("valid", log.getValid() ? "T" : "F");
+        ret.put("exist", log.getExist() ? "T" : "F");
+        ret.put("within", log.getWithin() ? "T" : "F");
 
         return ret;
     }
 
     @GetMapping("/log")
     public String log(Model model) throws Exception {
-        model.addAttribute("date", format(LocalDateTime.now(), "yyyy년 MM월 dd일"));
+        model.addAttribute("date", sdfDate.format(System.currentTimeMillis()));
         model.addAttribute("result", logService.read());
         return "log/logList";
     }
@@ -100,7 +96,10 @@ public class LogController {
     }
 
     private void print(Map<String, String> info, long timeNow) {
-        System.out.println(sdf.format(timeNow));
+
+        System.out.println("------------------------------");
+        System.out.println("현재 시간: " + sdfTime.format(timeNow));
+        System.out.println("QR코드 생성 시간: " + sdfTime.format(Long.parseLong(info.get("time"))));
         System.out.println("ID: " + info.get("ID"));
         System.out.println("전화번호: " + info.get("phone"));
         System.out.println("주소: " + info.get("address"));

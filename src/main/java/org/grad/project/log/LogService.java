@@ -23,7 +23,12 @@ public class LogService {
         this.logRepository = logRepository;
     }
 
-    public void join(Log log) {
+    public void join(Log log, long timeQR, long timeNow) {
+
+        log.setValid(checkInterval(timeNow, timeQR));
+        log.setExist(checkID(log.getId()));
+        log.setWithin(checkTemp(log.getTemp()));
+
         logRepository.save(log);
     }
 

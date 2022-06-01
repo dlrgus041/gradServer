@@ -1,4 +1,12 @@
+body {
+    padding-top: 100px;
+}
+
 .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     border-top: 4px solid #6db33f;
     margin-bottom: 50px;
     border-bottom: 0;

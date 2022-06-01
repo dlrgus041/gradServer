@@ -1,10 +1,9 @@
 package org.grad.project.visitor;
 
-import org.grad.project.Util;
+import org.grad.project.util.Util;
 import org.grad.project.model.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -29,8 +28,8 @@ public class VisitorService {
         visitor.setId(visitorRepository.encrypt(2));
 
         Map<String, String> link = new HashMap<>();
-        link.put("web_url", "https://drive.google.com/file/d/1DW7Vuex0eMUI2gpEApFVQPl3YV0YQhJQ/view?usp=sharing");
-        link.put("mobile_web_url", "https://drive.google.com/file/d/1DW7Vuex0eMUI2gpEApFVQPl3YV0YQhJQ/view?usp=sharing");
+        link.put("web_url", "https://drive.google.com/file/d/1HITifkeLT-IcwfiesKMwxx4nA6Ds0oVj/view?usp=sharing");
+        link.put("mobile_web_url", "https://drive.google.com/file/d/1HITifkeLT-IcwfiesKMwxx4nA6Ds0oVj/view?usp=sharing");
 
         Map<String, Object> template_object = new HashMap<>();
         template_object.put("object_type", "text");
@@ -40,13 +39,14 @@ public class VisitorService {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("template_object", Util.objectToString(template_object));
+        params.add("receiver_uuids", Util.objectToString(new String[]{Util.getUuid()}));
 
         HttpHeaders header = new HttpHeaders();
         header.add("Host", "kapi.kakao.com");
-        header.add("Authorization", "Bearer " + Util.getToken());
+        header.add("Authorization", "Bearer " + Util.getAccess().getToken());
         header.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
 
-        String response = Util.request("https://kapi.kakao.com/v2/api/talk/memo/default/send", HttpMethod.POST, header, params);
+        String response = Util.requestPost("https://kapi.kakao.com//v1/api/talk/friends/message/default/send", header, params);
         System.out.println(response);
 
         visitorRepository.save(visitor);
@@ -81,7 +81,7 @@ public class VisitorService {
 
     private String makeText(Entry visitor) {
         return "App을 다운로드한 뒤 아래 정보를 입력해서 QR코드를 발급받으세요.\n" +
-                "ID :\t\t" + visitor.getId() + "\n" +
+                "ID :\t\t  " + visitor.getId() + "\n" +
                 "이름 :\t\t" + visitor.getName() +"\n" +
                 "전화번호 :\t" + visitor.getPhone() + "\n" +
                 "주소 :\t\t" + visitor.getAddress();
